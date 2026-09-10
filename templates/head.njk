@@ -1,0 +1,16 @@
+{#
+  Campaign Hub – optional site theme (common.head).
+
+  The stylesheet is always linked (the loader links every declared style), so
+  the theme rules are scoped to a class on <html> that only appears when the
+  setting is on. Setting it here, in <head>, means no flash of the garden
+  theme before the campaign one takes over. Without JavaScript the site keeps
+  its own theme, which is a safe place to land.
+#}
+{% if pluginSettings.campaignTheme === true %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap">
+  <script>document.documentElement.classList.add("campaign-theme");</script>
+{% endif %}

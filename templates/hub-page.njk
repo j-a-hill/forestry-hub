@@ -1,0 +1,114 @@
+{#
+  Campaign Hub – the four hub pages (notes.afterContent).
+
+  A note with hub: jobs | log | roster | fort gets the matching block
+  appended, so Jake can write an intro above it in the note itself.
+#}
+{% import "plugins/campaign-hub/templates/macros.njk" as ch %}
+
+{% for ch_page in [(noteProps.hub if noteProps else hub) | lower | trim] %}
+{% if ch_page == "jobs" or ch_page == "log" or ch_page == "roster" or ch_page == "fort" %}
+{% for ch_data in [collections.note | campaignHub] %}
+<div class="campaign-hub ch-page ch-page-{{ ch_page }}">
+
+  {% if ch_page == "jobs" %}
+    {% if ch_data.jobs.length %}
+      {% for ch_group in ch_data.jobsByStatus %}
+        <section class="ch-section">
+          <h2 class="ch-section-head">{{ ch_group.key | capitalize }}
+            <span class="ch-count">{{ ch_group.items.length }}</span></h2>
+          <div class="ch-jobs">
+            {% for ch_job in ch_group.items %}
+              {{ ch.jobCard(ch_job, ch_data.mapNote) }}
+            {% endfor %}
+          </div>
+        </section>
+      {% endfor %}
+    {% else %}
+      <p class="ch-empty">No jobs are posted yet.</p>
+    {% endif %}
+  {% endif %}
+
+  {% if ch_page == "log" %}
+    {% if ch_data.sessions.length %}
+      {% for ch_group in ch_data.sessionsByMonth %}
+        <section class="ch-section">
+          <h2 class="ch-section-head">{{ ch_group.key }}</h2>
+          <div class="ch-tablewrap">
+            <table class="ch-log">
+              <thead><tr><th>Date</th><th>Expedition</th><th>Hexes</th></tr></thead>
+              <tbody>
+                {% for ch_session in ch_group.items %}
+                  {{ ch.sessionRow(ch_session, ch_data.mapNote) }}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      {% endfor %}
+    {% else %}
+      <p class="ch-empty">No expeditions have been written up yet.</p>
+    {% endif %}
+  {% endif %}
+
+  {% if ch_page == "roster" %}
+    {% if ch_data.characters.length %}
+      {% for ch_group in ch_data.charactersByStatus %}
+        <section class="ch-section">
+          <h2 class="ch-section-head">{{ ch_group.key | capitalize }}
+            <span class="ch-count">{{ ch_group.items.length }}</span></h2>
+          <div class="ch-cards">
+            {% for ch_character in ch_group.items %}
+              <article class="ch-pc-card ch-pc-{{ ch_character.status }}">
+                <h3>
+                  {%- if ch_character.url -%}<a href="{{ ch_character.url }}">{{ ch_character.title }}</a>
+                  {%- else -%}{{ ch_character.title }}{%- endif -%}
+                </h3>
+                <p class="ch-pc-line">
+                  {%- if ch_character.className or ch_character.level -%}
+                    <span>{{ ch_character.className }}{% if ch_character.level %} {{ ch_character.level }}{% endif %}</span>
+                  {%- endif -%}
+                  {%- if ch_character.origin %}<span>of {{ ch.ref(ch_character.origin) }}</span>{% endif -%}
+                  {%- if ch_character.player %}<span>played by {{ ch_character.player }}</span>{% endif -%}
+                </p>
+                {% if ch_character.status != "alive" and ch_character.fate %}
+                  <p class="ch-fate">{{ ch_character.status | capitalize }} · {{ ch_character.fate }}</p>
+                {% endif %}
+                {% if ch_character.sessions.length %}
+                  <p class="ch-pc-count">{{ ch_character.expeditions }}
+                    expedition{% if ch_character.expeditions != 1 %}s{% endif %}</p>
+                  <ul class="ch-pc-sessions">
+                    {% for ch_session in ch_character.sessions %}
+                      <li><a href="{{ ch_session.url }}">{{ ch_session.title }}</a>
+                        {% if ch_session.dateShort %}<span class="ch-quiet">{{ ch_session.dateShort }}</span>{% endif %}</li>
+                    {% endfor %}
+                  </ul>
+                {% else %}
+                  <p class="ch-pc-count ch-quiet">Not yet out of the gate</p>
+                {% endif %}
+              </article>
+            {% endfor %}
+          </div>
+        </section>
+      {% endfor %}
+    {% else %}
+      <p class="ch-empty">No characters have been published yet.</p>
+    {% endif %}
+  {% endif %}
+
+  {% if ch_page == "fort" %}
+    {% if ch_data.facilities.length %}
+      <div class="ch-build">
+        {% for ch_facility in ch_data.facilities %}
+          {{ ch.facilityBar(ch_facility) }}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="ch-empty">Nothing is being rebuilt yet.</p>
+    {% endif %}
+  {% endif %}
+
+</div>
+{% endfor %}
+{% endif %}
+{% endfor %}

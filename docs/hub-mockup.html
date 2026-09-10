@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fellgard hub mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#16130f; --panel:#221d17; --panel-2:#2a241c; --line:#3b3226;
+    --ink:#e9dfcb; --ink-dim:#b3a78f; --ink-faint:#857a66;
+    --gold:#d2a85a; --gold-dim:#8f7240; --red:#b5553f; --green:#7f9b62; --blue:#6f93a8;
+    --display:"Cinzel", "Trajan Pro", Georgia, serif;
+    --body:"EB Garamond", Garamond, Georgia, serif;
+    --ui: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.45}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* explainer strip */
+  .explain{font-family:var(--ui);font-size:13.5px;line-height:1.5;background:#0e0c09;border-bottom:1px solid var(--line);padding:12px 20px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;color:var(--ink-dim)}
+  .explain b{color:var(--ink)}
+  .explain label{display:flex;gap:6px;align-items:center;cursor:pointer;color:var(--ink);white-space:nowrap}
+  .key{display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .dot.auto{background:var(--blue)} .dot.dm{background:var(--gold)}
+
+  .shell{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}
+  nav.side{border-right:1px solid var(--line);padding:22px 16px;background:#1a1612;position:sticky;top:0;align-self:start;height:100vh;overflow:auto}
+  .brand{font-family:var(--display);font-size:19px;letter-spacing:.04em;color:var(--gold);line-height:1.15;margin-bottom:4px}
+  .brand small{display:block;font-family:var(--body);font-style:italic;letter-spacing:0;color:var(--ink-faint);font-size:14px;margin-top:4px}
+  .search{margin:16px 0 18px;font-family:var(--ui);font-size:13px;color:var(--ink-faint);border:1px solid var(--line);border-radius:6px;padding:6px 10px;display:flex;justify-content:space-between}
+  nav.side h4{font-family:var(--ui);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:18px 0 6px}
+  nav.side a{display:block;color:var(--ink-dim);padding:3px 8px;border-radius:5px;font-size:16px}
+  nav.side a.on{background:var(--panel-2);color:var(--ink)}
+  nav.side a:hover{color:var(--ink);text-decoration:none}
+
+  main{padding:28px clamp(16px,3vw,40px) 60px;max-width:1180px}
+  .banner{position:relative;border:1px solid var(--line);border-radius:10px;padding:22px 24px;background:
+    radial-gradient(1200px 300px at 10% -40%, rgba(210,168,90,.18), transparent 60%),
+    linear-gradient(180deg, #2a2219, #1f1a14);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:end}
+  .banner h1{font-family:var(--display);font-weight:700;letter-spacing:.03em;font-size:clamp(26px,3.4vw,40px);margin:0;color:#f1e4c6}
+  .banner .when{font-style:italic;color:var(--ink-dim);margin-top:2px}
+  .next{font-family:var(--ui);background:rgba(0,0,0,.35);border:1px solid var(--gold-dim);border-radius:8px;padding:10px 14px;min-width:230px}
+  .next .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+  .next .big{font-size:17px;color:var(--ink);margin:2px 0}
+  .next .sub{font-size:13px;color:var(--ink-dim)}
+
+  .grid{display:grid;gap:18px;margin-top:18px}
+  .g-2{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+  .g-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .card h2{font-family:var(--display);font-size:17px;letter-spacing:.06em;margin:0 0 10px;color:var(--gold);display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .card h2 a{font-family:var(--ui);font-size:12px;letter-spacing:0;color:var(--ink-faint)}
+  .card p{margin:.3em 0}
+
+  .facts{margin:0;padding:0;list-style:none}
+  .facts li{padding:6px 0;border-bottom:1px dashed var(--line)}
+  .facts li:last-child{border-bottom:0}
+  .facts b{color:#f1e4c6}
+
+  .mapcard{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:center}
+  .mapcard img{width:150px;height:150px;border-radius:50%;border:2px solid var(--gold-dim);display:block;object-fit:cover}
+  .stat{font-family:var(--display);font-size:30px;color:#f1e4c6;line-height:1}
+  .stat small{font-family:var(--body);font-size:15px;color:var(--ink-dim)}
+  .mini{font-family:var(--ui);font-size:13px;color:var(--ink-dim);margin-top:6px}
+  .btn{display:inline-block;font-family:var(--ui);font-size:13px;padding:6px 11px;border-radius:6px;border:1px solid var(--gold-dim);color:var(--gold);margin-top:10px}
+  .btn:hover{background:rgba(210,168,90,.1);text-decoration:none}
+
+  .jobs{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+  .job{background:#f0e2c0;color:#2b2217;border-radius:4px;padding:12px 14px 12px;box-shadow:0 2px 0 rgba(0,0,0,.35);position:relative;transform:rotate(var(--r,0deg))}
+  .job::before{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#e27a5f,#7c2a1b)}
+  .job h3{font-family:var(--display);font-size:15px;margin:2px 0 4px;letter-spacing:.02em}
+  .job p{font-size:15.5px;margin:0 0 8px;line-height:1.3}
+  .job .meta{font-family:var(--ui);font-size:12px;display:flex;flex-wrap:wrap;gap:6px}
+  .tag{border-radius:999px;padding:1px 8px;border:1px solid rgba(43,34,23,.35)}
+  .tag.open{background:#d9ead0;border-color:#8fb37a}
+  .tag.taken{background:#f3dfb4;border-color:#c9a24f}
+  .tag.done{background:#ddd5c6;border-color:#a59a86;text-decoration:line-through}
+
+  table.log{width:100%;border-collapse:collapse;font-size:16px}
+  .log th{font-family:var(--ui);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);text-align:left;font-weight:600;padding:0 8px 6px 0;border-bottom:1px solid var(--line)}
+  .log td{padding:8px 8px 8px 0;border-bottom:1px dashed var(--line);vertical-align:top}
+  .log td.d{white-space:nowrap;color:var(--ink-dim);font-family:var(--ui);font-size:13px}
+  .hexes a{font-family:var(--ui);font-size:12px;border:1px solid var(--line);border-radius:4px;padding:0 5px;margin-right:3px;white-space:nowrap}
+  .tablewrap{overflow-x:auto}
+
+  .rumours{margin:0;padding-left:1.1em}
+  .rumours li{margin:5px 0;font-style:italic;color:var(--ink-dim)}
+  .rumours li::marker{color:var(--gold-dim)}
+
+  .build{display:grid;gap:10px}
+  .bar{font-family:var(--ui);font-size:13px}
+  .bar .row{display:flex;justify-content:space-between;color:var(--ink-dim)}
+  .bar .row b{color:var(--ink);font-weight:600}
+  .track{height:8px;background:#15110d;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:3px}
+  .fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold))}
+
+  .roster{display:grid;gap:8px}
+  .pc{display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:10px;align-items:center}
+  .sigil{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:15px;background:var(--panel-2);border:1px solid var(--line);color:var(--gold)}
+  .pc .n{font-size:16.5px;line-height:1.1}
+  .pc .c{font-family:var(--ui);font-size:12px;color:var(--ink-faint)}
+  .pc .s{font-family:var(--ui);font-size:12px;color:var(--ink-dim)}
+  .pc.dead .n{text-decoration:line-through;color:var(--ink-faint)}
+  .pc.dead .sigil{color:var(--red)}
+
+  /* annotations */
+  .note{display:none;width:fit-content;max-width:100%;margin:-2px 0 10px;font-family:var(--ui);font-size:12px;line-height:1.35;padding:3px 8px;border-radius:5px;color:#0e0c09}
+  .note.auto{background:#a9c7d8}
+  .note.dm{background:#e7c985}
+  .note code{font-size:11px;background:rgba(0,0,0,.08);padding:0 3px;border-radius:3px}
+  body.annot .note{display:block}
+  body.annot .card, body.annot .banner{outline:1px dashed rgba(169,199,216,.0)}
+
+  .how{margin-top:26px;font-family:var(--ui);font-size:14px;color:var(--ink-dim);line-height:1.55}
+  .how h2{font-family:var(--display);color:var(--gold);font-size:18px;letter-spacing:.05em}
+  .how pre{background:#0e0c09;border:1px solid var(--line);border-radius:8px;padding:10px 12px;color:var(--ink);font-size:12.5px;overflow-x:auto}
+  .how .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+
+  @media (max-width: 980px){
+    .g-2,.g-3,.how .cols{grid-template-columns:minmax(0,1fr)}
+  }
+  @media (max-width: 760px){
+    .shell{grid-template-columns:minmax(0,1fr)}
+    nav.side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}
+    nav.side .links{display:none}
+    .banner{grid-template-columns:minmax(0,1fr)}
+    .mapcard{grid-template-columns:100px minmax(0,1fr)}
+    .mapcard img{width:100px;height:100px}
+  }
+</style>
+</head>
+<body class="annot">
+<div class="explain">
+  <span><b>Mockup of the garden home page as a campaign hub.</b> Everything sits inside the normal Forestry layout; names from your primer, jobs/sessions/characters are made-up examples.</span>
+  <span class="key"><span class="dot auto"></span>built automatically from notes</span>
+  <span class="key"><span class="dot dm"></span>you write it</span>
+  <label><input type="checkbox" id="toggle" checked> show labels</label>
+</div>
+
+<div class="shell">
+  <nav class="side">
+    <div class="brand">Tales from Fellgard<small>A West Marches campaign in Dunvale</small></div>
+    <div class="search"><span>Search</span><span>Ctrl K</span></div>
+    <div class="links">
+      <a class="on" href="#">⌂ Hub</a>
+      <a href="#">Map of Dunvale</a>
+      <a href="#">Job board</a>
+      <a href="#">Expedition log</a>
+      <a href="#">Adventurers</a>
+      <h4>Play</h4>
+      <a href="#">Player primer</a>
+      <a href="#">Character creation</a>
+      <a href="#">Rests</a>
+      <a href="#">Downtime</a>
+      <a href="#">Exploration</a>
+      <a href="#">Inventory</a>
+      <h4>World</h4>
+      <a href="#">Dunvale</a>
+      <a href="#">History</a>
+      <a href="#">Religion</a>
+      <a href="#">Current situation</a>
+      <h4>Places</h4>
+      <a href="#">Fellgard</a>
+      <a href="#">Orlyn</a>
+      <a href="#">Wardpeak</a>
+      <a href="#">Wyrmway</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="banner">
+      <div>
+        <span class="note dm">Title + date line: your home note. The in-world date is one line you bump after each session.</span>
+        <h1>Fellgard Holds</h1>
+        <div class="when">Week 3 after the seal broke · Early summer · The passes are open</div>
+      </div>
+      <div class="next">
+        <span class="note auto">From a <code>next-session</code> note</span>
+        <div class="lbl">Next expedition</div>
+        <div class="big">Thu 17 Sep · 7pm</div>
+        <div class="sub">4 of 6 seats · sign up on Discord</div>
+      </div>
+    </section>
+
+    <div class="grid g-2">
+      <section class="card">
+        <h2>The valley right now <a href="#">Current situation →</a></h2>
+        <span class="note dm">Short "what everyone knows" list. Written by you, links to the full Current Situation page.</span>
+        <ul class="facts">
+          <li><b>The ward broke.</b> The cave at the foot of Wardpeak stands open. Nobody who has properly gone in has properly come back.</li>
+          <li><b>The king is dead</b> and Orlyn is half-burned and lawless. A warlord holds the road south.</li>
+          <li><b>Goblin raids</b> are pushing down on the northern farmsteads, better supplied than goblins should be.</li>
+          <li><b>Fellgard is safe,</b> for now. Overcrowded, undermanned, and the granary is thin.</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Map of Dunvale <a href="#">Open map →</a></h2>
+        <span class="note auto">Live from the hex map plugin: explored count and the most recently revealed hex</span>
+        <div class="mapcard">
+          <img alt="Fogged map of Dunvale" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAFoAWgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC6oZW+Yce9WoiCcYGTQIcHg9aUQsHByfevGPRYMwU+460qoG+Y9Kf5aO3TmgbVBHQD1oAYygIAqncT/k1G0JD45yTjPrV+ORTkhRwOCKahaQsFXpwQfWpC5ThjEXysSTnvUpG5sMMfSrBgZSSwxxkkc0HdlVBPI78UXC9yudzsuwbVHtzUqgSZAP8A3zQI87WHHrjmnABMk4+YfSgTZE0RUc84PpUcjxxhmJPA9eaju72KHao5JPCjqfYetZNy9xIehUf3EIZ/x7L+P5VaQJl6bUo0X5jjOBimPdzO20HygBnDglv++Rz+eKxBdyAzLCDAijdLJ1bA6Dd159BihNS8qyKqvmNnJWMbz9WI4zVKPYGu5ZvbloZlH2dpnJwDKRgn2Qcfnmqv28W90sdzKjGIchztRSfQd6xJ9ZVrh5JbjIH3RF19+vQdqoTeIccQxon/AAHJP1NbRpSe5DqRWx0eo695qEW8qOTwOeT+FYtxfyxxJE0oCPy6A9OfX1rDn1SaZiS35cVAJWkPJNbRoJGUqzZ0E+sJJHtWMnHRnJP6VSm1aZwAHZB0KqeKqA/JjFQSVqoRRm5tj5bli27JJPcmqrys3XJpwUsaTyjVWJuQk0AntUjRkCkC4piDn1oHHanCnBaBjVHNTKcDFIqmnhaQiNh6Uwg1MRTcc0wIgMcipFkYd6GXNIF7UDHmZ27kVJHczRH5ZG5681DtNOVeaVgua1tqtwqqu4HsQwyDVu3vdl4snzRgDnyz/j/KsiLAxmpy1S4JlKbR0x1co/7qZXBGVBTGfYnpUyyzXRVrrzFCjOYlDfr/APWrkGf36dKIr+a2fcjEfQ4rGVBdDWNZ9Tt7G484hI3k+zg5PmIHGfcdq0JIIYkaSJzGev7vlQP9w84+h/CuJTWhIVlyY7hf4143D3pTrNyZMhtqHtvzj8cVk6MuhoqkXudqk8yp5i7Z4gNwkhO7A9SOo/KrVrcxMxffkN79K5TTdRikCiAS+eSSSHwB/jXQKolUSTHMmApYL5cn59D+NZSjbRlptrQ294bHTb9KVvu7IxyDySKxre/uImKZMmzGQBhv++e/4ZrSgu47hThhuzyQc1m4tahfuXF67N3IHPrRTkXJD8HHHPFFSFyJs5Ucc9eaXAPfJqNsBMoB6A0LkMD271QEmAMjA9zmhkXHPSmeZg7duc96kXlfmyefTpQBLAiKgXOB+pp6s4mfaRtOMDA/PNRD5RnP4UofkuAFx0FQxWLgYgBsAA+p/lSlYm2yMPmHHFVPtkafK7fX2NZlxq5kLRRKGVfvsThV+p/p1qopskv3txHblWVgFz8zZ6Csq71ID5pHECdsjLsPZev4ms+C8iMiKXLJ1Eh9c9EB7+5yfpVTWdQMUTLHHyTgnvk+/UmrUdbIpR6sklv8xCSIFI5D5e7OZJO557D6YFMu9RWOJY4tvmYwNv3U/GucvbuSPyPNk3KPmMY5C9gPyrLvdUuLtSC2E7IOgrojRctyJVVHY077UY40aEySux5YA7VY/wAzWG2qTpGYllYJ1wOKpvI7DBYmojz1rpjTSOeU2yRpi5yeTSCmAU8CrIExU0YqM8dacrYpgWx92oX54pQ/FOC7qQxsSknpVoRgjmolGynNLxTERSqAOlVWGDnFTSPmoS2aAGg81YjGcVXxk1YiPFAEwUUFcUbqRmyMZoAY3WmcHpQWpooGSAZp4Wod1PWTnBoAlIpuMfWkLgiojJzQIn8ynCWqu+lD80AWt3FMcUwSZGKTzKAGnjoaQsaUnNKU44pDLun6o9mdpRGQ9QR/Wuhs9YaVPlu2T5iqrIc49BmuPOPWhHZTgHjOazlSUi41HE7o3UbS5muZFnHG0R5LD2Pete1aW53PI251I+f7kuB6g8H8fzFeeW903mpv+dF/hY8V1UOrjcot3ZwU+WNgSc9xmuedJx2N41FLc6+2vXiH7/5o16yAdD/tD+H+XvRXOrfXN06eSnlzxjgbwrAemD2orCy6l8vZnUoRhlLcHoPSpMgL1qNVUdMUrBQRk5zUFApy3PBNTAHOcHrTI1+bccFe1K0gAJbGB+lAmPPQ7iAPT0qldanFaxncRxVC91ZEbyomMkjcKqjJNZT3BhbzpAJrn+EAZSM+3Yn37dvWqUOrJvfRGkZJb190u6ND8wjHDsPU/wB0fqewqjqjRqkcfneUn8MagqqDufUn3PNMjvHguZYGmLSsRkfxM2PXsBWFquoNBchz5cky5IZW3BT24PpWkYOTshtqCNK6nijdZmmeBAgVI0++B/7Ln865u91KHzP9HVuOjOxY1m3VzLcyFnZjk5OTUCrXXCko7nNOo2WWneY5Ykk9zTHzjFKgxSvitTMqkc03bUpHNG2mIjCmnhTT1WpQoxQBWYcdKaFIqwyim4FACKKsRnFQ4xSh6AJ2PBqs7U/zKjYUAMJzTSKcRzxQB6igBNpFSoMUtHSgBxPFMJNKab1NADgueaGQgZxU8S5FSSKAtAFHacZ70wHBqV+Ki5NABn3oIzzSgc08LQBDzS/jTnFMAyaAHBqdmmAU8CgY4Eing8U3PFIv3uaAHFc9KAlSouTUjxbRmgREMAUvnlCCDyKic4qImkM6Ow10lDDdfvUIwN3UD2NFc8h+ais3STZaqNHt3BCkjBz37UuAzg5OB2quJ3cr8g25HWop7zylIQgAe3FeakdjLEtzGqEKx6YrCnvZ7m5Nra5dyMnJ4QdyT2FV2vLjU52trXC7eXkb7sa+p/w6mpLlGsYBbRr5UTMPMd/9ZIe5b074HatUlHcjWXoWLOOCBnRHLu3yvLjmQ9wPRfbv39KpahcD7QPnCxwfefbnB9gO9VJNUhW+mZWaOERjjBBAx0Fc1qWqvM5EAMMfQKrHH/160hScndilUUFZC6jfo8rNAz5OcszEs31rLMrStk0xmLNuY5J70Lwa7IxSOWUm2TIM1II8VHGeasBgVqiSFvlqNnyKfKarkUABY05W9aj96djigCTdilEtREGkxzQBK0lIr0wKTShSKAJM0wtilxxUbA0APVs1KFyKgjHNW0HFAEJWk74qZhioyKAEzijNIRTTxzSAcTSA80maSgZYSXbTnmyKpkmjJNMRIzZNORMiohU8RxQAvl4pp4NSswqFmoAY3NMGRTiaaOtADxS9KQGjPNACkilHJxTacpoAtRjB4qRzxUKPTmfigCCQc1AwqdmBqI0DETiilAooEex3F3Hbo2OMeveubnuJ9TuTb2zBQo3SSH7sa+p/w71Dd3Nxqd8tpa8u3JYn5UXuxPYCtCeySw03yLeQrF1ZmGHlfH3m9B6DsPrXnJKK13O1XkyfTpre0AghU7PvIWAy7d5GPt29O1Zt/JHeyAiUtErYJUHaB9e5qeU2iotzNjylQRpEWwHx3Pt/OsHUdaa6OxMLGvCqowAParp03J3JnNRVkVtauknlPljAACj6AYrDY54FWZXLEknmqz12JWVjlbuMNJ2pw60nHaqEKpIqQSVGKdtBoAcfmqMg0/GKXrQMj20oXNP20qjLACgBNhxwKQRkngE/SrwURxZK5PYHv9afa3EdwTFKoDDoR6UgKSx+op5QVNIuJGyeOx9ai3c4oAiZKiKEmroTI6VagsBKmScD19DQIzFhbrirAjYDkVppaPCxV049ccGrBsW+zAsvQYHFAGARzzUZHNWLhCjkdKrZoAUjimNT93FRsaAGUuKBzUgQ0DI9tG2pMYpppiGU8Nt5qNjzRQA8ynOaYWzSGmmgBQaM0KKeFoAbmilIpcUgCnDNKqc1OIuOlMCJCc80pbB5p7Jjio2FADWIPSkFNNGaAJVGTRSIcUUAeiWEUWlgRJ++ckG4lXkSP/Co9VB/PGfSnasZJoJT5bmJerJjG7pjJ61VYO1rKsbYIl3vMx4QAY/M+lYl3qU5gW3Z8oowoB4+pHrXDCDnK52TkoKyItSvpLuXLDaF4VewHYCsxgc8U8tk0AZPJrsSsrHK3cgNMIxnNWWUVC44NUSV268UoFGOaeooAbtpc4p56VFnDUDJRyanjg8wgDqfyquvzEYrasICyfXqKBFP7ISPQ9CPSljtSsnNakkTqdxAP97/AB+tREgFcYbJwGwetQ2yiExgpsI5bgGoIbPE5Yc46EdK01jYOJFXipmiLJnvU8w7FARQupQOC47VELHccryK0obRHXzmzkZBHrU7NHEgGF3dAorRLS5m5a2M1bE4A6EkAe9a0EdtbpDJEpaWNvnQ8q2P61VWQyM6knzCdqBD0rTfRHWxRrSUF1+Vkf5d2Ov4/wA6foP1FYWeoCZUP2ZtoIGeCc/pSy3iraJa8BNnPfv/ADGayppPIjOEZXYEYcYLHt/WpJnjdiWYgsuN3ce1Fx2M6+t8jBHPr61nfYm9K3J9zoA21wejDg1EQTtROc8c1m5DsYE8RiOKg2k1u3Nk7DJwR6j1rM8kq2CKtX6k3XQgVcVZji3DpQI8nAGauqojMcb4G84pSkkNIgayJbAwahmsmRc9avGfb54PJDYHvVllZ7ZSUwCORjpU84+U5soQabir8sBDGqzoR2q7iIDTaewxTKBEijNSkVHHU3amBERg0UjHmkBpDJ4+tWkYAVRVualEnFAE8jA9KquaVnpmc0AMIyaULTwtSomaYiHbRVsxjFFAzodV1CKKEWqGXKsdxUgBm9feudeVnOWOabNIZDuJOfeod9RCKiipScmTbqN2OhqEE04c1RBJ5lJkHrUZ4pAaYARg0bgKdnio2UnmgBGamZ5pQpzTiueaAHQnDg10VlKhjB37G9e341zY4Na+jZlu4lb7u4ZBosBr+YZDsmUI2eHB4P1qGSIxsQVz/I1d1awgBD2ruhPJjx8hx1A9D7VJp0PnlRKM4GR3DVEkUmSW8yQ28cb+VHIzqHkuFysYLAZPrgHJrUNix1aWzkvbUW62v2uG6Wy3xyxBWJbIl4X5QAeeTjAqs1qApDlg24MGHYg5H6ioVNxeamM3txIZVSGYEgBolbcFwAAFBGcDFZK1xvYtXluP7OSZ0WJlUFkUY6jnj2rnGkaW4JRfmIworrdWBe1MoGWjbOP7w6Yrmzb28GpBbiZFi3HGXwema3qN83KY0bOPMMsJYIyzTY8zOAT6VpLHDLLDM5ZnnO0IPTBO7Htj8ayoIYLiXYk0Ri5P+szxnrn/AD1q6kFzFcMbZHlaMbEwM7fr2pXT0NrW3L0OmyajZ6eba+spxdzeTIUh3fZHKuwDfPncQncAH1GKhurQWNxNYyhJDEFDMi4B3KGBAJODzgjJHHBqWwkmh060xe3Ef2Z2IiDBdjcrnp8x2kj5s8EjvSS7ZWkkkmkkJxl5CM8DAHHGAAAAAMCs5baAkYczKDtTGCcCpYrfa7YJZiPToO5qaWyEhjmAKoCck98entSiI7z/AHs+mMfQ1pTV9WZ1H0RDNHvhI4TaMll7/WszEcrtgZI9at3J3MV3cMcDB4OO1ZDOYJ92/Kk+nXmonK70KirLUkkLRzsUC4VOaWctd3KJEOUXJJ/z61GzHfNOTwTtAx696kt2eQtsXYoQtI/TA6fzqGyismGl+ckAHJx1rY89GRQDxjIz1xWfa2kU8hVbiEZTJZnwM1stYJawJLE6ysR98HOR7e1TcEVGWLYcLj3qp5KmXbxipyFMyNvI5+dT0qCJw0txJgAA8N6iquBnTxhgzJjAbFVcYq2XLo/YZ3YqsepPrWsHclgvFSb+KjAJpSpqxDSeaTNKRTDSAeh5qVelQL2qwvSgYxqE5NK49KRAd1AE6rxT87aFIxUbtQBJ5lFVtxNFMB7HBzUbHNWWTioHXFAhE5IFTYwPWoUHNWFXIoAham1ZMdMaHigCHNOBpCuDQDg0hjgvcUu3ApobFOLcUAIV5rYsFjPyMgEg5DA8/hWNnBGa17CWPdgjLkZzjpQBqhi/ylvmA6+vvRFdy2U6skjAA5wFBx+lVzukTr+7PcdfwqGa4KZGMgcDnkVDkOx2EF3FcwFtoyRnA/pUunRqIpXACln/AEFclYXzR4zyp5rXtNbbAQwx4BOOP6Zp07KVyKqbjZF+4ufnWW4Um3yQka/xt2z39/wqTSZrW0kvXuEu2juVjRZ7Nisq4cllBBBG4beckcYPFUL26We3hlU7fLkOVTjqPvD3qrKLlPLm+6hO5SOAR2OPwxSldPUqFraGpNeQ3nh3StNijmh+yrF5rzoAAojZSAc4JJIxtAz/ABZNOhuli0WeaJiXjOX3fxZAw39KyEkMz7SykAcktuP0Htz+lQW7xw3l99okCQyARYZs7+Qf5f0rOdRbIuxr2tzDgSSbTNInIYcD/PrWLqEjQq0aEx7m3EZ6fT2rctrd9Q06zWIadm4na28mS3kDIViMjlWyd+FA4HUsAKqXOnzNrbabcJDGYYFAaJWGVZQykhuRkHkHkEVnyybBtJET3Ylhi2pmPygqqw5A9frWdfFldArFcg5A4q1es1qoUL833RntismeR/OiJ3Nnqa6pysuUxgr6kM7lpooVfYQ2Qfc0ps54/LgBLTzKHRAvHJx1Pfim2gNzfwBmRRv5LnGADzXR2WnXWpxa1Pazwxw2WTslDHb8rOSCPu8IRnnkjjnNYpq9jU5xrC54YoVVwGznjk7R+ua1IdIu41VLeJZFmhO4bvvdAcfQmtW7s7rSNOjN1JbzPuEU3lb90MuxZdpzwflcHI4yDVm2K2saFNzhxlXLfeB7/p+lRNpbgkT2V9exWWnwXBvols7WdTLId8lvPKuxXjBbkRqEAwR94kVX1KBbzVdSuyGt088MIsKThlOc84ySMkDu1RXE7upEc2HPBUHjA7U2XUoGsZVjmGWIMjOclm96XtEx2MPUNOngYqU+YkDrjrx1+tZcttcRIVUKMpucF+uD1rQ1C5Z7q6zM+YlC4Q8Bvr7VT+1GSGNNmcqyu3f/AD3rRNEsy5mZcqc49cdaiUk1LIrugY8qOBUQGOtaxWgmToM08p3qNDxUjNhaoREy1ERUrNk0Ku4UDIlHNSg0/wAqkK4oAaaVeDSE4pN1AEwPFMc8UgakPNACDminqKKYi0WGKrSEZprSGomcmkBKrDNWEcVSDGpFY0wL6lSvvTZGGKqiQgUrOTQAjnmoyaUnmmmkMUE04UwE4pwoAU5NT277HU9OajVc0/bjpQBqJeZTHp70xwHG7fye1ZhYg8U6N23A5qOQdzXtVIGQQR3FWWaOIB8ncSAR61UtmIw/b09amunjbaF5bIzjPFJOzB6ovTcxFV2kAhvY8cirtrqkoESxmAiJWQFiMkNzkg9+TWehaSzG6TJC4CmswSHP+3nnNOp3Jh2OrWebKssdpyy5O4dlKZ6+hz9earaxeLbzC3tobfDgp84PQtknPXO7v6VhrOy4AJyaWWaOaeCSaNmEQw/uOcH+Vc8nJGmhLfX13FqMRlnlDWbs9r8iFUZjvY4Iwcn1z0HpW/o0supXc19PMzzvzNI5yztgD8sAfTFcvNJG8S3X7zzXkbOScEcf4/pXU+HIraGBdrSRtMSTI3zKwHYj+HHtVUm5TuyKnwtIj1qxlmuYpfkVSuOWAye5rmJ7a8QzFkCAtwSw7en4Yrsrq7trjWYJbtYZbG3mWN4wcps55J7jJBOfTFLeSeGQ17EY7Z02jeXtSrTD7NgG3AGIyZ/mOMce1VL3pOzCKaSRyV/pv9nafEWkV57g+arA8BOmPzrStbu8gvZbezvDHHLGJJURVOX2FNwJBKnaxGRg4OKrWe3VIJreZUU21tmAk9COw+vP6UtqiLfWn7xCgg3O44JHP+NYOTTNGrOzNC+vDfWaRvdPLFANqeawyOAOwBJwoGTk4GM1Ja6bPPoptpZkj8py8cpHY87f65qtY6bNEz6i4UJvYpHj5gD3xTb/AFUiBl87Owjcvce1K7kw0KF0l2HaVp4gZP3RCEZ5GOn4frVaVXsY2bzIpVgl2gZByx5zj8KrvObiceSCzDnOahgTzAFYKVD7pBnkitFBEi3Usizy9g/Xvx1FSRxyFLfYS/ByuPXqKknt0eQnABxwa0oIYrK2xnOBkt3NbQhciTsVHsFhtslQC35fSufmXEpA7Vs32oNhgg2qePrWKSSSa106CV+o5eKcxpi0rGgojJ5qaIjiq7U5XINAi6WGKjdqh8yk3ZoGKxyaQA0uMmpFXIoAbtNKAc1KFpCMHFAAuKKbmigBHTmo9nNWmHNIF9qYiAR04R1OF4pSABQBWK4oqRiKZkUhiAZpwTNAIqVcUARlKbtqwQDTChzQAi8U403pRmgQFeaeqYpARTwRigZIJyi4qI3R8wE846CkcjFVX6nFKyA3tO1BmYRZwuCCB1IqxexHcmEyRnJA7VzkErQzI47Gumt7otgOp5HBByafSzJd07orxY3dKj2yoLqVj+6Zdu315zir88Khi7MI2P8AD1JPuO1Q+ZsAjdMHuDWMo2LTuON3IwtyIkEQg2EZORkfz6V0Hh26EWmi3SNQ7g4K8++Oegrn22leKtaefs6K6sVLHcMHpVUUua5FTaxp6pCBNBJB+7klJDY6EjoT+P8AOs+WULcGaUnG3EoYZDYHTnvmtiTVLtWDRtH5cyGJwABgZzx789aoaxrV9BPHHsR4tigsW5OARwc8Hms6iXOy4NqCMjToi91KIlAQxOSpPpyPyOKRb2KR7dktQtyQY8gHj0OKtXPiC73xySogmlPz7V6IucYweM5OfpTbe+XcEB4dVYDnOBxUqK3Hcc+pzpZt58Kqw5C5OT9PxrOjUXi+ZPwHbLAdWx0qzfTKyncuFPU46Vnbv30AWQ7Sv8qaiO49IEjvFMZCqoI2gcn60SQrCCyLjce1QpODdsxYCMHaAfWpp7oZGMcelWou4mxhuxCiqUUsPUdKhmvnmOD90ds1TkYs5JpyituliPMSUlzUW3FWTimFaBkOMUYzTmGBmm96AGlM00oRU2RimtigRGFJqQJQuM1MMYoAjC4NOBpWIBqPNAyXfionems1RkmgB+6imDiigC+/3qVRmm9akWmIaeKidsVM/Sqz8mgBpOabmnhc0MuKQDQQKcG5pmOacq5oAnQ5qbbxVdeKkEmB1oGMcYqPdTncGot1AC7qer1HSbsUATM1RE00tSFhQIs2qK0w3YwBmrqXO0I+SpMhwwOOKq27hwYkA3lep70iyEyR78FUOMenWspPUpGnb3kfmqJictnDZrVIjuUDYVwODxzXOvCJHRICXcA8k471u2MotfOuJVDRRgLLycZPc4BOByTx2pxqdGS4X1RXlRY5ZFUELx3qxaEtCUwflPGa6T7JE2sXOnNBYm+gQyKPtD4lUR+ZlTs/u/3sVAbYXOmWl4kUSR3yt5JV23AqASpDKvrjcuRnjNaRjaV7kSbtaxiXWJYgwYjYOKz7tvtCwRtk5JyB61pMmVaMjtVWH72GAOOR9e9Z1lZ3Kpu6sZqWskmRhjIGC7c9KvrZNFPGyygoq7ckfX/GqcUsjXSkMVZpOSRV1ZC8TnaS6NggHOazLI75SkbGIswdgWBPIrIndFaPZk4BySfc1oNOsyLjAy+05Pb1rLu0EUxUHIHOauCBkO4nvUqMT3qvnvT1bBrURaC8U1jikEnFITuoYgVqk7VFjBpd+KBiP0qIn5qVmzTfvUAJuNGSTUgjJpfLoEMFPDECgrimmgYpPNNLUAZPWgigQnWk70veigBAKKM0UDLyinqcUgpGNAgc9ag705mpo60wJUXNI6cU5TQxzQBVI5qRKGAzSDikA9jiomelYjFR59KAAtmkBpc0hxTsA7ORTGoOaOooAbmjNKVxTR1pAWICfNQg4wa31gjaAsmFkYct/wDWrGtIC7Bu1dFbRJsUhsL0/GsqhcTIjt3UyhAWmC7gc4+uK1GD200Mb3CGC6Csw2cOCeSR9cjHoKotIjyurqyszBVOOVGefx6VsWupQLJFbPCs/kkRo0gHH94n0FYyv0GjUuNRu7jUNWAezaW6gWG5/wBBTDqvGODkdh74GelWtO+0NpyWcjRiK05hjjiCYJABZsdTgVjLJfRNNchYlkc/MoXJK5wCP0pts10t8shLrISFJzjrWtNu/NfRE1I3jZF+/tiJRKo5Y/MPRqwbyOWJZfLRiT0x15rfvrhbh0wPlHH19TWNcN88hYYPQVrWs4pmVJNOxleU1vNJ5sbOVUODjof8/wAqUBoY43V2Z5iDsPtWrG3mp0z3H+FZOoTZu1KkgxgEDHfrWBsIYlb7VmPaU5X0BzVOeN18sMVYFQBj3qy2Gky0hIkPRRznrRZzLHdKH+4cD5h/nvQnYRTOnz85Q0x7Z4xyCK6qWOPrxmqdxbhkOOhFWqg+U54ZqRDT5Ith5qAtitSCRmwDUJJzQXzTT1oGLycVIgpgFSdDQBOuMZoJGKhL470xpDQBK1RlSaRHyeasIoNAiALSlasbOKYw4oGVscmkCmpWHNSxxgmgRW2HmirxhGKKAE3YqNmprNzTCTQMXNANNzRmgCUNihnqMNQeaBCk00vRimFTQMGbNMJp200m00CFBpT1puMUZoAcBk1KkeajQ81ciIxTAgeLAqHbhqvSEYqoxGaQGjYuAyjirkk3lqkyk7A+frWXaSbJcggDpWrOYJ4FU8Y561lNalJkU7iPUA6ZfPzY64zUlirPEGk2lJJDubHzDYMnn3qirFblWDAEt3PSrEd1stRCshBVyUI9CMGp9QOit9q3yuwlKRqFU78feGcH9KdIoUAReaF5IVnDDPOOayrK4MjSKZWbaBjnr74qVpXRuWbB6c0rRKTZYSQuu0ja6dVPFRXcoEQUgEt3I6VC7SB1mTLZ4YVPJAbq3GxSG6rXQnzRsjFq0rjdPjMp8peCD19BVW8sTLDBfR2cpW+mZLUpKrebgqpXAJKt8w4OOta+nR/ZlUumJJflIPZf/r1cije2s7GGG0sd1pNPMsjvId5lXa2VBGOi4IPGOK5XJXsza1zDi0TUI59VilsAs1irfaEa7h3xEAZbbuyR82Mj1qmLC6tb9RcIuVX7w6YxxW9Ne6jd6lfXElpZW41KaIz+S7naiY+QbjyGYKT/ALoqW+i8yAk/6yMfiV/+tScleyFYxpGGMtiqrzORtH02/wCNSMsrMcoxPYY6U25JtrYZXDY5+taQhzMJSsjLvdqcfxd8Vnk5p08hkck0wc1uQFGKULmnbaYDc4pd+aY4IpgJpATZpp9aUHig9KABeKsLIAKrelGSKALXm4pjScVEMml2kigYu7LVahNVAvNWYzigC0T8tFRFsrRQBWYHrSbRjIqTaTR5dMRAQaTtmpmTFREUANBqReaZT1OKQyXbTSlLuxSb6AARjNKY+KA+KGk4oAryDBqOpXOaioEPWrCPgVVzinh6AJnkqszfNUhORTNoJzQA9HIPFTea2BzVfoaXdigZN5hNWYIzIpKsAV5NUlap4pCufRhg1MlcDXtJFgdInC75MnI/QVeK+YdrDrXPfaGPl5bDIeG9BWlDqIkbHQ9qycWVcszkxqcHKjuOtWoSIkCjee+cd6rYWQAdc0sKIwKMfmHbHarpPUia01NWxc3YlR+JVO5Pp6f1q95gIbd94D5h6Vz9tI1pqIK8ZORWzJd2k+S6OQfQiuerB81zSDVipLdQzzLFINoAyofHze9RXd55UKQLIHDcE/7PYH8v5VVM8ERlXDk9jn9Ky7gv5rsXfJbOAeDWqWljSSj0NO2ZiZJMkA8VBeDzVIJq0n/HshAxxVeTjJrpgrROKT945yeIpIRTFHNX70Av71T24pM1Q5Vp+3imA0/dxSGV5RioulTvzUYTJoEIPSlqTy+9MYYOKAEopu7mgGgC1EucVN5YxVaJ++an354oGMZcUA4p+MjNGygA3ZFFIVxRQBKMYo3AVCWIqNpKAJXYVCTzTGcmmbqAJsikOKi3Uu6gB240oNNp4FAATTSxpxFNI5oATrQVpwFPC5oAgINAFTlOKYy4oENFLR0NMLUwFY4pKUHNJjmkADqKnQ1B0pwbFAE7c0xGKOCKQHNSCPNAzXtbjeBn0/KrMUga4LdgOKxFZkHBIpDcSIfvGpUUncT1VjdmlU7VXJfON3TAq1bSQqAJm/jXPJ6d/wDPtXPwzCRSSx3D9a0F5Udh1NTPe7HFWVkW5EtmDESjJXOPfPT8qcIrVsv97a2FyOo9aqFBuVemT1qK/uinyIcdqqCT1FJvY0WliKj952PAGOc8f41QnmAUms1ZZD/EaV2YjkmtbkcpHIxdiT3qFjTmOKiY1JYbuaN1M6UZpAOJzSoRmo80oOKALWRtqtKacH4qJ+eaAIu9OAzk0AZNTomcGgCNcipUJpwjpwTFAEqcjBqTHFRrgDilLUDAiikzmigCIjNNKZqTvUirxQBTZMVGRVyVeKqt1oAZT1XPFIFqaNOaAFWLNOIxVlQNtQvigCPGaXy6cvWpQKAK+3FPUU5hQvFAC7eKiYYqxkYqu5GaAIGqNjT361EetMQ9TUgGajQVYRKQDdnFNKVbCDHSo3UUDI415q2q8VAgwasqRigCNuKruankNVmoAVHKOCOxrQjvFxjJ5rMNSJ0ocUxGqbpODuJIqjNIZZCTTKBTSS2AmjFSMuRTENS5GKAK7x1XdMVeYioJFzQBTam5qZ0qEqaAClApyoTT9lIBoHFNK1LgUhxQBEFxUgbFNNNJoGTh6XdUINPBoAlDYozmmZozigCVRmiiNhmigBo61Kp4qPbTx0oEMl6VVI5q0/OKiK80ACJU6rio1IFKZKAJS2BULHNG/NNNAxVNShqhWn4oAdnqKTPNFBFACFqiZqkIqFxQBG1IBk0tIpGaBFiNO9WAuKro2KnVs96YD6jYVKBmjZmkMhFOzxUgjpTFgUAV3NQtU0gwagY800IZnmpUqLHNSpQBKabnFPxRs5oAVWp++mhcUMKADfT1Gah71NGaAEePioTHzVpz8tVywzSGPjiGKc8YANOjalkPBoAovwajzUsgyaixQICaaTS0YoABT1NNxigHmgCcdKa3FIGpCaBjg+DRUdFAFwU7FRKcmrCDNAELLUR71akWqr9aAI2NNBOaVuaFoAdzSinheKMUAIDTt1MooAkBpw5GKh3VLGcmgB5X5arSCrxGVqpMOaAKhpuKeRzRigQKSKmiY5quc1PCcsKAL0fIqXFMToKUvimBIMUjEYqBpPeommoAJsVVI5qZm3UgXJoAiC1Kq4qUR8UEYNAAvNShRioxUoPFIYEcUw04mm5zTEMI5p68Uu2igBHPy1WY4NSyGqzHmkBZjepWcEVSVyKcXzQMe5FQN1pS1MJoEKKeKjFPBNAA1MqQjNIRQMbmlzSEUAUAOopQKKAJVJzVmNuKqDrUymgCaRqrMMmpCc0wigCMpQFxUoFI2KAEB4p3WmdKUGgB22kKYGaepp7YxQIqtxSo+DSSnk1Dn3oAu+d8tQSPk0wZxTghNAEZ60U8xmmheaAE2ZqSNdpp6LT2XAoAesuBikaTNVixBoDZoGSM2e9R5pSc0zvTQiVRmpFFMjqXIFACg4pGNNLUwtQA8NzTt9Q5pM0ATF6A3NQZpytQBZBzTtuaiV6mVxQBDKmKqOOavysCKpNjdSAEjzUhh4qSHFWG24oGZ7JimbatOBUe2gRABTgKkK4po60DJEjzTmiwKkiIqR8baAKDLg0oWnuOaFoATbiipCRiigBoFSLTDxRuxQImprDvTd9BbNAxpPNITSE5oFAgpM08rxUbUDHh6UvxUIalJzQA125poGTTsZNLtxQIci1ZSPNQKcGrCPQAPGADVYrzVqR+Kqs3NAEiUP0pqtxSsaBkDdaSnEUAcUAJnikp+3NKEpiFQ4pxemgYpGFACF6QtTT1pypmgABzT+1KI8UpGKAImOKaGpX600CgCQPinCU0wJmpBFSADJnvUecmpDGRTGGKBj0bbUnmVWzilBoAmJzSgVEGpwfFAhz8VATzT2fNRNyaBkqSYqQyZFVQaeDQIlJzTCcUoNIRmgAD5ooC4ooAeWpM03NFAw3Uu6mmkzQA/PNOWo6XPNAiYkVC54oLUzOaAEp4BzQq5NSBcDNADQKU4xQRimM3BoAXPNSqeKrhqnTpQArniq5PNWJBxVc/eoAlSnEcUkYzUxXigCuRSqKeRQBQMQUuRTScUwvTESEimMaZvozmgA71NHiosU4HFAFg4xUbU3fSbqAGsKRV5qQDNOC0rgOQVMoFQg4pwagZI4BFVnQ1YU5p/lgjpQIzmUik6VblTFVmGKBiZpKO9PRc0CI+aTFWDHxTClAyPBoAqTZS7KBDBUi03GKetAxSKKU9KKAIM0maKQ0CFzSZpBS0AKDTwM0yp4loATy6YUxV4INtQSrQMhU4qUNxUNGaAHtUTUpNNNACDrVuFc1VUfNV+AigAkj4qqY/mrRfBFV2TmgCJOKfmjbikNAhCabmnVGxoAQ1GRS5paYEZFOUZNKRT46AHiPimMuKtLt21DJilcCDGTThSAZNPCnFAwBp26mlSKBQA+gCkzTgc0APQ4qYPxUFJvoESSHNVnWpQ2aRhmgZVxzUsdIUJNOVcUAS9qYRThShaQCBaUrTwMUpxTAgK80oFPNNoACM0UoNFAFSlxRRQIMUYzRRQMeFqxGtFFAFkfdqtIKKKAISKaRRRQAw0nWiigQq8Gp43xRRQMsK+akC5FFFADSlMK80UUCGMKryUUUwI80oaiigCRRmnEbaKKQxplxTC+aKKBEkYyatpHxRRQMa8eKhZcUUUAMPWnrRRQA49KiZuaKKAEDVIpyaKKAJ1iyKayYoooAaBzUoXiiikAxzioy9FFMBN1JuoooAaWxRRRQB/9k=">
+          <div>
+            <div class="stat">7 <small>/ 392 hexes explored</small></div>
+            <div class="mini">Latest: <a href="#">Hex 101</a> · the Wrym bridges below Fellgard</div>
+            <div class="mini">Frontier: 19 hexes at the edge of the fog</div>
+            <a class="btn" href="#">Open the map</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:18px">
+      <h2>Rumour board at the Wyrm's Head <a href="#">All jobs →</a></h2>
+        <span class="note auto">Every published note with <code>type: job</code>. Status, patron, reward and hex come from its frontmatter. Change <code>status: done</code> and it strikes through.</span>
+      <div class="jobs">
+        <article class="job" style="--r:-0.8deg">
+          <h3>Burnt farmsteads north of Carlinholt</h3>
+          <p>Hedda wants to know where the raiders are camped, and who is arming them.</p>
+          <div class="meta"><span class="tag open">open</span><span class="tag">Hedda Stane</span><span class="tag">50 gp</span><span class="tag">⬡ 59</span></div>
+        </article>
+        <article class="job" style="--r:0.6deg">
+          <h3>Scout the Wyrm's Mouth</h3>
+          <p>Map the first chamber past the broken seal and come back alive. Report to the war-room.</p>
+          <div class="meta"><span class="tag taken">taken · Thu party</span><span class="tag">Hedda Stane</span><span class="tag">⬡ 39</span></div>
+        </article>
+        <article class="job" style="--r:-0.3deg">
+          <h3>A roof for the smithy</h3>
+          <p>Brenna will pay for sound timber and slate hauled up from Hartholt.</p>
+          <div class="meta"><span class="tag open">open</span><span class="tag">Brenna Crowfoot</span><span class="tag">rebuild</span><span class="tag">⬡ 123</span></div>
+        </article>
+        <article class="job" style="--r:0.9deg">
+          <h3>Rites at the old shrine</h3>
+          <p>Oslac needs an escort to carry the lamps to a wayside shrine on the canyon path.</p>
+          <div class="meta"><span class="tag done">done</span><span class="tag">Oslac</span><span class="tag">⬡ 48</span></div>
+        </article>
+      </div>
+    </section>
+
+    <div class="grid g-2">
+      <section class="card">
+        <h2>Expedition log <a href="#">Full log →</a></h2>
+        <span class="note auto">Newest notes with <code>type: session</code>: date, party, hexes visited and a one-line summary from frontmatter</span>
+        <div class="tablewrap">
+        <table class="log">
+          <thead><tr><th>Date</th><th>Expedition</th><th>Hexes</th></tr></thead>
+          <tbody>
+            <tr><td class="d">10 Sep</td><td><a href="#">The bridges below the Wrym</a><br><span style="color:var(--ink-dim);font-size:15px">Ysolde, Brak, Tam · drove off a goblin scouting party, found the south bridge cut</span></td><td class="hexes"><a href="#">79</a><a href="#">89</a><a href="#">101</a></td></tr>
+            <tr><td class="d">3 Sep</td><td><a href="#">Up the canyon path</a><br><span style="color:var(--ink-dim);font-size:15px">Oren, Ysolde, Mira, Fen · escorted Oslac, saw lights in the cave mouth</span></td><td class="hexes"><a href="#">57</a><a href="#">48</a></td></tr>
+            <tr><td class="d">27 Aug</td><td><a href="#">Session zero at Fellgard</a><br><span style="color:var(--ink-dim);font-size:15px">Everyone · arrived with the refugees, met Hedda, Brenna, Oslac and Bram</span></td><td class="hexes"><a href="#">68</a><a href="#">78</a></td></tr>
+          </tbody>
+        </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Overheard</h2>
+        <span class="note dm">A plain list in one note. Could also pick 3 at random on each visit.</span>
+        <ul class="rumours">
+          <li>"The seal was never real. Something just finally woke up."</li>
+          <li>"The fen-folk killed the king. Everyone in Orlyn says so."</li>
+          <li>"Those goblins had new steel. Goblins don't forge steel."</li>
+          <li>"The Vigil failed in its duty and now we all pay for it."</li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="grid g-2">
+      <section class="card">
+        <h2>Rebuilding Fellgard <a href="#">Fellgard →</a></h2>
+        <span class="note auto">From frontmatter on the Fellgard note, e.g. <code>smithy: 60</code>. Update the numbers as the table invests.</span>
+        <div class="build">
+          <div class="bar"><div class="row"><b>Smithy</b><span>timber in, needs slate and a smith</span></div><div class="track"><div class="fill" style="width:60%"></div></div></div>
+          <div class="bar"><div class="row"><b>Infirmary</b><span>not started</span></div><div class="track"><div class="fill" style="width:5%"></div></div></div>
+          <div class="bar"><div class="row"><b>The watch</b><span>2 recruits from the refugee camp</span></div><div class="track"><div class="fill" style="width:25%"></div></div></div>
+          <div class="bar"><div class="row"><b>Granary</b><span>thin · about 5 weeks of broth</span></div><div class="track"><div class="fill" style="width:30%;background:linear-gradient(90deg,#7a3a2b,var(--red))"></div></div></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Adventurers <a href="#">Roster →</a></h2>
+        <span class="note auto">Every note with <code>type: character</code>: class, level, sessions played, status (alive / dead / retired)</span>
+        <div class="roster">
+          <div class="pc"><div class="sigil">Y</div><div><div class="n">Ysolde</div><div class="c">Ranger 3 · Holtwyn</div></div><div class="s">4 expeditions</div></div>
+          <div class="pc"><div class="sigil">B</div><div><div class="n">Brak Ironhand</div><div class="c">Fighter 2 · Dwarf</div></div><div class="s">2 expeditions</div></div>
+          <div class="pc"><div class="sigil">M</div><div><div class="n">Mira of the Fen</div><div class="c">Warlock 2 · Hreodwyn</div></div><div class="s">2 expeditions</div></div>
+          <div class="pc dead"><div class="sigil">†</div><div><div class="n">Oren Vale</div><div class="c">Cleric 1 · fell at the cave mouth</div></div><div class="s">1 expedition</div></div>
+        </div>
+      </section>
+    </div>
+
+    <section class="how">
+      <h2>How this would work</h2>
+      <p>Only the gold-labelled bits are writing. The blue sections are assembled at build time from notes you'd be making anyway, so logging a session, posting a job or updating a character is just writing a note with a few lines of frontmatter and publishing it.</p>
+      <div class="cols">
+<pre>---
+type: job
+status: open
+patron: Hedda Stane
+reward: 50 gp
+hex: 59
+---
+# Burnt farmsteads north of Carlinholt
+Hedda wants to know...</pre>
+<pre>---
+type: session
+date: 2026-09-10
+party: [Ysolde, Brak, Tam]
+hexes: [79, 89, 101]
+summary: drove off a goblin scouting
+  party, found the south bridge cut
+---
+# The bridges below the Wrym</pre>
+<pre>---
+type: character
+player: (player name)
+class: Ranger
+level: 3
+status: alive
+---
+# Ysolde</pre>
+      </div>
+      <p>The same blocks could also sit on their own pages: a full job board, the expedition log and the roster, linked from the sidebar. Session notes could reveal hexes on the map too, since they already list which hexes the party visited.</p>
+    </section>
+  </main>
+</div>
+<script>
+  document.getElementById("toggle").addEventListener("change", function (e) {
+    document.body.classList.toggle("annot", e.target.checked);
+  });
+</script>
+</body>
+</html>

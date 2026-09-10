@@ -1,0 +1,71 @@
+{
+  "id": "campaign-hub",
+  "name": "Campaign Hub",
+  "version": "1.0.0",
+  "description": "Turns a Digital Garden into a hub for a West Marches tabletop campaign: a home dashboard built from job, session, character and facility notes, plus job board, expedition log, roster and rebuild pages.",
+  "author": "Jake Hill",
+  "hooks": "index.js",
+  "slots": {
+    "common.head": [
+      "templates/head.njk",
+      "templates/macros.njk"
+    ],
+    "index.beforeContent": "templates/home.njk",
+    "notes.beforeContent": "templates/note-strip.njk",
+    "notes.afterContent": "templates/hub-page.njk"
+  },
+  "styles": [
+    "styles/campaign-hub.scss"
+  ],
+  "scripts": [
+    "assets/campaign-hub.js"
+  ],
+  "settings": [
+    {
+      "key": "rumourBoardCount",
+      "name": "Jobs on the rumour board",
+      "description": "How many open or taken jobs the home page pins to the rumour board. The rest are on the job board page.",
+      "type": "number",
+      "default": 4
+    },
+    {
+      "key": "expeditionCount",
+      "name": "Expeditions on the home page",
+      "description": "How many of the most recent expedition reports the home page lists.",
+      "type": "number",
+      "default": 3
+    },
+    {
+      "key": "overheardMode",
+      "name": "Overheard rumours",
+      "description": "Show every rumour from the home note, or three of them picked at random in the reader's browser on each visit.",
+      "type": "select",
+      "options": [
+        "random 3",
+        "all"
+      ],
+      "default": "random 3"
+    },
+    {
+      "key": "mapJsonPath",
+      "name": "Hex map data",
+      "description": "Where the hexcrawl-map plugin publishes its data. The map card is hidden if this cannot be fetched.",
+      "type": "text",
+      "default": "/hexcrawl-map.json"
+    },
+    {
+      "key": "showNoteStrip",
+      "name": "Property strip on notes",
+      "description": "Show a small strip of key properties under the title of job, session and character notes.",
+      "type": "boolean",
+      "default": true
+    },
+    {
+      "key": "campaignTheme",
+      "name": "Campaign theme",
+      "description": "Restyle the whole site with a parchment and ink palette and the Cinzel and EB Garamond typefaces from Google Fonts. Leave this off to keep your current garden theme.",
+      "type": "boolean",
+      "default": false
+    }
+  ]
+}

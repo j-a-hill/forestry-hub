@@ -1,0 +1,147 @@
+{#
+  Campaign Hub – home dashboard (index.beforeContent).
+
+  Renders on the note tagged gardenEntry, and only when that note carries
+  hub: home. Every section is dropped when it has no data: an empty box on
+  the front page is worse than no box.
+#}
+{% import "plugins/campaign-hub/templates/macros.njk" as ch %}
+
+{% for ch_home in [noteProps | campaignHubHome] %}
+{% if ch_home.isHub %}
+{% for ch_data in [collections.note | campaignHub] %}
+<div class="campaign-hub ch-home">
+
+  <section class="ch-banner">
+    <div class="ch-banner-main">
+      {#
+        The banner carries the title. Where the core inline title is switched
+        on it says the same thing twice, so the stylesheet hides that one on
+        any page showing a hub banner.
+      #}
+      <h1>{{ title | default(page.fileSlug) }}</h1>
+      {% if ch_home.worldDate %}<p class="ch-when">{{ ch_home.worldDate }}</p>{% endif %}
+    </div>
+    {% if ch_home.next %}
+      <div class="ch-next" data-ch-until="{{ ch_home.next.iso }}">
+        <p class="ch-next-label">Next expedition</p>
+        <p class="ch-next-big">{{ ch_home.next.display }}</p>
+        {% if ch_home.seats %}
+          <p class="ch-next-sub">{{ ch_home.signedUp | default(0, true) }} of {{ ch_home.seats }} seats taken</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </section>
+
+  {% if ch_home.headlines.length or pluginSettings.mapJsonPath %}
+    <div class="ch-grid ch-grid-wide">
+      {% if ch_home.headlines.length %}
+        <section class="ch-card">
+          <h2>The valley right now</h2>
+          <ul class="ch-facts">
+            {% for ch_headline in ch_home.headlines %}
+              <li>{{ ch_headline | campaignHubInline | safe }}</li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endif %}
+
+      {% if pluginSettings.mapJsonPath %}
+        {#
+          The map card is hidden until the hexcrawl-map data actually loads,
+          so the hub looks the same whether or not that plugin is installed.
+        #}
+        <section class="ch-card ch-map" hidden
+                 data-ch-map="{{ pluginSettings.mapJsonPath }}"
+                 {% if ch_data.mapNote %}data-ch-map-note="{{ ch_data.mapNote.url }}"{% endif %}>
+          <h2>{{ ch_data.mapNote.title | default("The map", true) }}</h2>
+          <div class="ch-mapcard">
+            <img class="ch-map-image" alt="" hidden>
+            <div>
+              <p class="ch-stat"><span data-ch-map-explored>—</span>
+                <small><span data-ch-map-total></span> hexes explored</small></p>
+              <p class="ch-mini" data-ch-map-latest hidden></p>
+              {% if ch_data.mapNote %}
+                <a class="ch-btn" href="{{ ch_data.mapNote.url }}">Open the map</a>
+              {% endif %}
+            </div>
+          </div>
+        </section>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if ch_data.board.length %}
+    <section class="ch-card">
+      {{ ch.cardHead("Rumour board", ch_data.hubPages.jobs, "All jobs") }}
+      <div class="ch-jobs">
+        {% for ch_job in ch_data.board | campaignHubLimit(pluginSettings.rumourBoardCount, 4) %}
+          {{ ch.jobCard(ch_job, ch_data.mapNote) }}
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
+
+  {% if ch_data.sessions.length or ch_home.rumours.length %}
+    <div class="ch-grid ch-grid-wide">
+      {% if ch_data.sessions.length %}
+        <section class="ch-card">
+          {{ ch.cardHead("Expedition log", ch_data.hubPages.log, "Full log") }}
+          <div class="ch-tablewrap">
+            <table class="ch-log">
+              <thead><tr><th>Date</th><th>Expedition</th><th>Hexes</th></tr></thead>
+              <tbody>
+                {% for ch_session in ch_data.sessions | campaignHubLimit(pluginSettings.expeditionCount, 3) %}
+                  {{ ch.sessionRow(ch_session, ch_data.mapNote) }}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      {% endif %}
+
+      {% if ch_home.rumours.length %}
+        <section class="ch-card">
+          <h2>Overheard</h2>
+          {# Without JavaScript every rumour shows, which is a fine fallback. #}
+          <ul class="ch-rumours"
+              {% if pluginSettings.overheardMode != "all" %}data-ch-rumours="3"{% endif %}>
+            {% for ch_rumour in ch_home.rumours %}
+              <li>{{ ch_rumour | campaignHubInline | safe }}</li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if ch_data.facilities.length or ch_data.characters.length %}
+    <div class="ch-grid ch-grid-wide">
+      {% if ch_data.facilities.length %}
+        <section class="ch-card">
+          {{ ch.cardHead("Rebuilding Fellgard", ch_data.hubPages.fort, "The fort") }}
+          <div class="ch-build">
+            {% for ch_facility in ch_data.facilities %}
+              {{ ch.facilityBar(ch_facility) }}
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+
+      {% if ch_data.characters.length %}
+        <section class="ch-card">
+          {{ ch.cardHead("Adventurers", ch_data.hubPages.roster, "Roster") }}
+          <ul class="ch-roster">
+            {% for ch_character in ch_data.characters %}
+              {{ ch.characterRow(ch_character) }}
+            {% endfor %}
+          </ul>
+        </section>
+      {% endif %}
+    </div>
+  {% endif %}
+
+</div>
+{% endfor %}
+{% endif %}
+{% endfor %}

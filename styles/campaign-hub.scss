@@ -1,0 +1,669 @@
+/*
+ * Campaign Hub styles.
+ *
+ * Two layers:
+ *   1. The hub components, scoped under .campaign-hub and drawn in the
+ *      garden's own theme colours, so they sit inside whatever Obsidian
+ *      theme the site is using.
+ *   2. The optional campaign theme, scoped under html.campaign-theme, which
+ *      the head slot only adds when the setting is on.
+ */
+
+.campaign-hub {
+  --ch-panel: var(--background-secondary, #f4f4f4);
+  --ch-panel-2: var(--background-primary-alt, var(--background-secondary, #ececec));
+  --ch-line: var(--background-modifier-border, rgba(128, 128, 128, 0.3));
+  --ch-ink: var(--text-normal, #222);
+  --ch-dim: var(--text-muted, #666);
+  --ch-faint: var(--text-faint, #999);
+  --ch-accent: var(--text-accent, #7b6cd9);
+  --ch-warn: #b5553f;
+  --ch-ui: var(--font-interface, system-ui, -apple-system, "Segoe UI", sans-serif);
+  --ch-display: inherit;
+
+  margin: 1.5em 0;
+  color: var(--ch-ink);
+
+  a { text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  p { margin: 0.3em 0; }
+}
+
+/* The core inline title and the banner would otherwise say the same thing
+   twice. Where :has() is unsupported the title simply shows twice. */
+main:has(.ch-home) > header h1 { display: none; }
+
+/* ---------- layout ---------- */
+
+/* Flex rather than grid: the map card is display:none until its data loads,
+   and a flex row lets the card that is left fill the width instead of
+   leaving a hole where the map would have been. */
+.ch-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.ch-grid > * { flex: 1 1 300px; min-width: 0; }
+.ch-grid-wide > :first-child { flex-grow: 1.35; }
+
+.ch-card,
+.ch-banner {
+  background: var(--ch-panel);
+  border: 1px solid var(--ch-line);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+
+.ch-home > .ch-card { margin-top: 18px; }
+
+.campaign-hub .ch-card h2,
+.campaign-hub .ch-section-head {
+  font-family: var(--ch-display);
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  margin: 0 0 10px;
+  color: var(--ch-accent);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  border: 0;
+  padding: 0;
+}
+
+.campaign-hub .ch-card h2 a {
+  font-family: var(--ch-ui);
+  font-size: 0.72rem;
+  letter-spacing: 0;
+  color: var(--ch-faint);
+  white-space: nowrap;
+}
+
+.ch-quiet { color: var(--ch-faint); }
+.ch-empty { color: var(--ch-dim); font-style: italic; }
+
+/* ---------- banner ---------- */
+
+.ch-banner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: end;
+  padding: 20px 22px;
+}
+
+.campaign-hub .ch-banner h1 {
+  font-family: var(--ch-display);
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  line-height: 1.1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ch-when {
+  font-style: italic;
+  color: var(--ch-dim);
+  margin-top: 2px;
+}
+
+.ch-next {
+  font-family: var(--ch-ui);
+  border: 1px solid var(--ch-accent);
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-width: 210px;
+}
+
+.ch-next-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ch-accent);
+  margin: 0;
+}
+
+.ch-next-big { font-size: 1.02rem; margin: 2px 0; }
+.ch-next-sub { font-size: 0.8rem; color: var(--ch-dim); margin: 0; }
+
+/* ---------- the valley right now ---------- */
+
+.campaign-hub .ch-facts {
+  margin: 0;
+  padding-inline-start: 0;
+  list-style: none;
+}
+
+.campaign-hub .ch-facts li {
+  margin: 0;
+  padding: 6px 0;
+  border-bottom: 1px dashed var(--ch-line);
+}
+
+.campaign-hub .ch-facts li:last-child { border-bottom: 0; }
+
+/* ---------- map card ---------- */
+
+.ch-mapcard {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+
+.ch-mapcard .ch-map-image {
+  width: 140px;
+  height: 140px;
+  max-width: 100%;
+  border-radius: 50%;
+  border: 2px solid var(--ch-line);
+  object-fit: cover;
+  display: block;
+}
+
+.ch-mapcard .ch-map-image[hidden] { display: none; }
+
+.ch-stat {
+  font-family: var(--ch-display);
+  font-size: 1.8rem;
+  line-height: 1;
+  margin: 0;
+}
+
+.ch-stat small {
+  font-size: 0.85rem;
+  color: var(--ch-dim);
+  font-family: inherit;
+}
+
+.ch-mini {
+  font-family: var(--ch-ui);
+  font-size: 0.8rem;
+  color: var(--ch-dim);
+  margin-top: 6px;
+}
+
+.ch-btn {
+  display: inline-block;
+  font-family: var(--ch-ui);
+  font-size: 0.8rem;
+  padding: 6px 11px;
+  border-radius: 6px;
+  border: 1px solid var(--ch-accent);
+  color: var(--ch-accent);
+  margin-top: 10px;
+}
+
+/* ---------- jobs ---------- */
+
+.ch-jobs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+}
+
+.ch-job {
+  background: #f0e2c0;
+  color: #2b2217;
+  border-radius: 4px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+/* The pin at the top of each notice. */
+.ch-job::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e27a5f, #7c2a1b);
+}
+
+.campaign-hub .ch-job h3 {
+  font-family: var(--ch-display);
+  font-size: 0.95rem;
+  margin: 2px 0 4px;
+  letter-spacing: 0.02em;
+  border: 0;
+  padding: 0;
+}
+
+.ch-job h3 a,
+.ch-job a { color: #2b2217; }
+
+.ch-job-summary { font-size: 0.95rem; margin: 0 0 8px; line-height: 1.35; }
+
+.ch-job-meta,
+.ch-job-hexes {
+  font-family: var(--ch-ui);
+  font-size: 0.72rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin: 0;
+}
+
+.ch-job-hexes { margin-top: 6px; }
+
+.ch-job-done h3,
+.ch-job-failed h3 { text-decoration: line-through; }
+
+.ch-tag {
+  border-radius: 999px;
+  padding: 1px 8px;
+  border: 1px solid rgba(43, 34, 23, 0.35);
+  white-space: nowrap;
+}
+
+.ch-tag-open { background: #d9ead0; border-color: #8fb37a; }
+.ch-tag-taken { background: #f3dfb4; border-color: #c9a24f; }
+.ch-tag-done { background: #ddd5c6; border-color: #a59a86; }
+.ch-tag-failed { background: #e8c9c1; border-color: #b5553f; }
+.ch-tag-alive { background: #d9ead0; border-color: #8fb37a; }
+.ch-tag-missing { background: #f3dfb4; border-color: #c9a24f; }
+.ch-tag-retired { background: #ddd5c6; border-color: #a59a86; }
+.ch-tag-dead { background: #e8c9c1; border-color: #b5553f; }
+
+/* ---------- hex chips ---------- */
+
+.ch-hexes {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.ch-hex {
+  font-family: var(--ch-ui);
+  font-size: 0.72rem;
+  border: 1px solid var(--ch-line);
+  border-radius: 4px;
+  padding: 0 5px;
+  white-space: nowrap;
+  color: var(--ch-dim);
+}
+
+.ch-job .ch-hex {
+  border-color: rgba(43, 34, 23, 0.35);
+  color: #2b2217;
+}
+
+/* ---------- expedition log ---------- */
+
+.ch-tablewrap { overflow-x: auto; }
+
+.campaign-hub table.ch-log {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.campaign-hub .ch-log th {
+  font-family: var(--ch-ui);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ch-faint);
+  text-align: left;
+  font-weight: 600;
+  padding: 0 8px 6px 0;
+  border: 0;
+  border-bottom: 1px solid var(--ch-line);
+  background: none;
+}
+
+.campaign-hub .ch-log td {
+  padding: 8px 8px 8px 0;
+  border: 0;
+  border-bottom: 1px dashed var(--ch-line);
+  vertical-align: top;
+  background: none;
+}
+
+.campaign-hub .ch-log tr:last-child td { border-bottom: 0; }
+.campaign-hub .ch-log tr { background: none; }
+
+.campaign-hub .ch-log-date {
+  /* The theme wraps long words in table cells; a date is never long. */
+  white-space: nowrap;
+  word-break: normal;
+  width: 1%;
+  color: var(--ch-dim);
+  font-family: var(--ch-ui);
+  font-size: 0.8rem;
+}
+
+.campaign-hub .ch-log-detail {
+  display: block;
+  color: var(--ch-dim);
+  font-size: 0.9rem;
+}
+
+/* ---------- overheard ---------- */
+
+.ch-rumours {
+  margin: 0;
+  padding-left: 1.1em;
+}
+
+.ch-rumours li {
+  margin: 5px 0;
+  font-style: italic;
+  color: var(--ch-dim);
+}
+
+/* ---------- rebuilding ---------- */
+
+.ch-build { display: grid; gap: 10px; }
+
+/* On the fort page the bars are the whole page, so give them room to
+   breathe and a line length that stays readable on a wide screen. */
+.ch-page-fort .ch-build {
+  gap: 16px;
+  max-width: 46em;
+}
+
+.ch-bar { font-family: var(--ch-ui); font-size: 0.8rem; }
+
+.ch-bar-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--ch-dim);
+  margin: 0;
+}
+
+.ch-bar-row b { color: var(--ch-ink); font-weight: 600; }
+.ch-bar-row b a { color: inherit; }
+
+.ch-track {
+  height: 8px;
+  background: var(--ch-panel-2);
+  border: 1px solid var(--ch-line);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 3px;
+}
+
+.ch-fill {
+  height: 100%;
+  background: var(--ch-accent);
+}
+
+.ch-bar-warn .ch-fill { background: var(--ch-warn); }
+
+/* ---------- roster ---------- */
+
+.campaign-hub .ch-roster {
+  padding-inline-start: 0;
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ch-pc {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.ch-sigil {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--ch-display);
+  font-size: 0.9rem;
+  background: var(--ch-panel-2);
+  border: 1px solid var(--ch-line);
+  color: var(--ch-accent);
+}
+
+.ch-pc-name { display: block; line-height: 1.15; }
+
+.ch-pc-line {
+  display: block;
+  font-family: var(--ch-ui);
+  font-size: 0.72rem;
+  color: var(--ch-faint);
+}
+
+/* Separators belong between the parts that are actually there. */
+.ch-pc-line > span + span::before { content: " · "; white-space: pre; }
+
+.ch-pc-count {
+  font-family: var(--ch-ui);
+  font-size: 0.72rem;
+  color: var(--ch-dim);
+  white-space: nowrap;
+}
+
+.ch-pc-dead .ch-pc-name { text-decoration: line-through; color: var(--ch-faint); }
+.ch-pc-dead .ch-sigil { color: var(--ch-warn); }
+.ch-pc-retired .ch-pc-name,
+.ch-pc-missing .ch-pc-name { color: var(--ch-dim); }
+
+/* ---------- hub pages ---------- */
+
+.ch-section { margin: 1.6em 0; }
+
+.campaign-hub .ch-section-head {
+  border-bottom: 1px solid var(--ch-line);
+  padding: 0 0 4px;
+  margin-bottom: 12px;
+  justify-content: flex-start;
+}
+
+.ch-count {
+  font-family: var(--ch-ui);
+  font-size: 0.7rem;
+  color: var(--ch-faint);
+}
+
+.ch-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.ch-pc-card {
+  background: var(--ch-panel);
+  border: 1px solid var(--ch-line);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.campaign-hub .ch-pc-card h3 {
+  font-family: var(--ch-display);
+  font-size: 1rem;
+  margin: 0 0 2px;
+  border: 0;
+  padding: 0;
+}
+
+.ch-pc-card.ch-pc-dead h3 { text-decoration: line-through; color: var(--ch-faint); }
+
+.ch-fate {
+  font-family: var(--ch-ui);
+  font-size: 0.75rem;
+  color: var(--ch-warn);
+}
+
+.ch-pc-sessions {
+  margin: 6px 0 0;
+  padding-left: 1.1em;
+  font-size: 0.85rem;
+}
+
+.ch-pc-sessions .ch-quiet { font-size: 0.75rem; }
+
+/* ---------- note strip ---------- */
+
+.ch-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-family: var(--ch-ui);
+  font-size: 0.78rem;
+  color: var(--ch-dim);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--ch-line);
+  margin: 0 0 1.2em;
+}
+
+.ch-strip:empty { display: none; }
+.ch-strip .ch-tag { color: #2b2217; }
+
+/* ---------- narrow screens ---------- */
+
+@media (max-width: 560px) {
+  /* A three-column table does not fit a phone. Stack each expedition into a
+     block instead, and drop the header row that no longer labels anything. */
+  .campaign-hub .ch-log thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .campaign-hub .ch-log tr {
+    display: block;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--ch-line);
+  }
+
+  .campaign-hub .ch-log tr:last-child { border-bottom: 0; }
+
+  .campaign-hub .ch-log td {
+    display: block;
+    padding: 1px 0;
+    border: 0;
+    width: auto;
+  }
+}
+
+@media (max-width: 760px) {
+  .ch-banner {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .ch-mapcard { grid-template-columns: minmax(0, 1fr); }
+  .ch-next { min-width: 0; }
+  .ch-mapcard .ch-map-image { margin: 0 auto; }
+  .ch-jobs { grid-template-columns: minmax(0, 1fr); }
+  .ch-cards { grid-template-columns: minmax(0, 1fr); }
+
+  .ch-pc { grid-template-columns: 32px minmax(0, 1fr); }
+  .ch-pc-count { grid-column: 2; }
+}
+
+/*
+ * ---------- the optional campaign theme ----------
+ *
+ * Only the palette and the typefaces. Layout, the hex map, search, the file
+ * tree and code blocks all keep working because nothing here touches them
+ * beyond colour.
+ */
+
+/*
+ * The palette is declared on <body> as well as <html>: the garden's own theme
+ * sets these same variables on body.theme-dark, which would otherwise win for
+ * everything inside body no matter what <html> says.
+ */
+html.campaign-theme,
+html.campaign-theme body {
+  --background-primary: #16130f;
+  --background-primary-alt: #1a1612;
+  --background-secondary: #221d17;
+  --background-secondary-alt: #2a241c;
+  --background-modifier-border: #3b3226;
+  --background-modifier-form-field: #1a1612;
+  --text-normal: #e9dfcb;
+  --text-muted: #b3a78f;
+  --text-faint: #857a66;
+  --text-title-h1: #f1e4c6;
+  --text-title-h2: #e6d4ab;
+  --text-accent: #d2a85a;
+  --text-accent-hover: #e6c079;
+  --text-a: #d2a85a;
+  --text-a-hover: #e6c079;
+  --interactive-accent: #8f7240;
+  --text-highlight-bg: rgba(210, 168, 90, 0.25);
+  --text-selection: rgba(210, 168, 90, 0.25);
+  --font-family-preview: "EB Garamond", Garamond, Georgia, serif;
+}
+
+html.campaign-theme {
+  background-color: #16130f;
+  color-scheme: dark;
+
+  body {
+    font-family: "EB Garamond", Garamond, Georgia, serif;
+    font-size: 1.05rem;
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+  }
+
+  /* The filetree and the sidebar are painted from their own variables. */
+  .filetree-sidebar,
+  .nav-file-title,
+  .sidebar-container,
+  .navbar {
+    background-color: var(--background-primary-alt);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Cinzel", "Trajan Pro", Georgia, serif;
+    letter-spacing: 0.03em;
+  }
+
+  /* Code and the map viewer keep a UI face — a display serif makes both
+     unreadable. */
+  code, pre, kbd, samp,
+  .hexcrawl-map, .hexcrawl-map * {
+    font-family: var(--font-monospace, ui-monospace, SFMono-Regular, Menlo, monospace);
+  }
+
+  .campaign-hub { --ch-display: "Cinzel", "Trajan Pro", Georgia, serif; }
+
+  .ch-banner {
+    background:
+      radial-gradient(1200px 300px at 10% -40%, rgba(210, 168, 90, 0.18), transparent 60%),
+      linear-gradient(180deg, #2a2219, #1f1a14);
+  }
+
+  .ch-fill { background: linear-gradient(90deg, #8f7240, #d2a85a); }
+  .ch-bar-warn .ch-fill { background: linear-gradient(90deg, #7a3a2b, #b5553f); }
+
+  /* Callouts as handouts. */
+  .callout[data-callout="quote"],
+  .callout[data-callout="handout"],
+  .callout[data-callout="rumour"] {
+    background: #f0e2c0;
+    color: #2b2217;
+    border-left: 3px solid #8f7240;
+  }
+
+  .callout[data-callout="quote"] .callout-title,
+  .callout[data-callout="handout"] .callout-title,
+  .callout[data-callout="rumour"] .callout-title { color: #6a5334; }
+
+  .callout[data-callout="quote"] a,
+  .callout[data-callout="handout"] a,
+  .callout[data-callout="rumour"] a { color: #7c2a1b; }
+}
