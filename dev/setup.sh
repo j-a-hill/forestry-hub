@@ -6,6 +6,9 @@
 #   dev/setup.sh              normal run
 #   dev/setup.sh --hexmap     also clone the sibling hexcrawl-map plugin, to
 #                             test the map card with real data
+#   dev/setup.sh --its        write a .env that loads ITS Theme in its
+#                             wotc-beyond palette, which is what the live
+#                             site uses
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -23,6 +26,26 @@ echo "==> installing template dependencies"
 
 echo "==> copying campaign-hub into the garden"
 "$REPO_ROOT/dev/sync.sh"
+
+if [ "${1:-}" = "--its" ]; then
+  echo "==> configuring the garden to load ITS Theme (wotc-beyond)"
+  cat > "$GARDEN/.env" <<'ENV'
+BASE_THEME=light
+THEME=https://raw.githubusercontent.com/slrvb/Obsidian--ITS-Theme/main/theme.css
+STYLE_SETTINGS_BODY_CLASSES=wotc-beyond
+dgHomeLink=true
+dgShowBacklinks=true
+dgShowInlineTitle=true
+dgShowFileTree=true
+dgEnableSearch=true
+dgShowToc=true
+dgShowTags=true
+ENV
+else
+  # get-theme.js only clears a cached theme when THEME is set, so a stale one
+  # from a previous --its run would otherwise stay compiled into the site.
+  rm -f "$GARDEN/.env" "$GARDEN"/src/site/styles/_theme.*.css
+fi
 
 if [ "${1:-}" = "--hexmap" ]; then
   echo "==> cloning hexcrawl-map alongside it"

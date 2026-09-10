@@ -1,7 +1,7 @@
 {
   "id": "campaign-hub",
   "name": "Campaign Hub",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Turns a Digital Garden into a hub for a West Marches tabletop campaign: a home dashboard built from job, session, character and facility notes, plus job board, expedition log, roster and rebuild pages.",
   "author": "Jake Hill",
   "hooks": "index.js",

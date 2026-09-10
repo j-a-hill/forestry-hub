@@ -126,6 +126,16 @@ Any section with no data is omitted. Nothing renders an empty box.
 
 Optional site theme (setting, default off): parchment/dark palette, Cinzel + EB Garamond from Google Fonts with system serif fallbacks. Toggled by a class on `<html>` set from a `common.head` slot so it can be switched off cleanly.
 
+**The site's theme is ITS Theme, not this setting.** The garden loads it with `THEME=https://raw.githubusercontent.com/slrvb/Obsidian--ITS-Theme/main/theme.css`, `BASE_THEME=light`, `STYLE_SETTINGS_BODY_CLASSES=wotc-beyond`. The hub must look right inside it. Things a host theme does that broke the hub before, and that any change here must keep working:
+
+- a decorative `::before`/`::after` on a heading becomes a **flex item** in our card headings and wraps the title — switched off on our own headings only
+- a themed `li::before` bullet becomes an extra **grid item** in `.ch-pc` roster rows and wraps them
+- `--background-primary-alt` is a dark maroon in `wotc-beyond`; never borrow it for surfaces (progress tracks, sigils) — derive from `--ch-panel` instead
+- table row/column striping is neutralised through `--table-*-alt-background` inside `.ch-log`, not by out-specifying the theme
+- a bare garden with no theme leaves `--text-muted` / `--text-faint` **undefined**; the fallbacks are derived from `--ch-ink` with `color-mix`, never fixed greys
+
+Check any styling change against ITS light, a bare garden, and the plugin's own theme. `dev/setup.sh --its` builds the ITS case.
+
 ## Local test harness
 
 Everything in `dev/` is for testing only. Keep it small. It gets copied into the garden on install, which is harmless but counts toward the 10 MB limit.

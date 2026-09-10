@@ -14,6 +14,9 @@ map card reads when it is installed. Everything works without it.
 
 ![The home dashboard](docs/screenshot-home.png)
 
+*Above: the hub under [ITS Theme](https://github.com/slrvb/Obsidian--ITS-Theme)
+with its `wotc-beyond` palette — see [Theme](#theme).*
+
 ## Installing
 
 Obsidian → Settings → Digital Garden → Plugins → Manage plugins → Install from
@@ -118,6 +121,32 @@ hub: jobs     # or log, roster, fort
 A property that holds a link (`patron`, `party`, `origin`) can be a wikilink
 or plain text. A wikilink to a note you have not published renders as plain
 text, never as a dead link.
+
+## Theme
+
+The hub is drawn in whatever Obsidian theme your garden is using — it reads
+the theme's own colour variables rather than imposing its own. The look above
+is **ITS Theme** by SlRvb, which most tabletop vaults already use, in its
+D&D Beyond palette. To get it, set these in your Forestry site settings:
+
+```
+THEME=https://raw.githubusercontent.com/slrvb/Obsidian--ITS-Theme/main/theme.css
+BASE_THEME=light
+STYLE_SETTINGS_BODY_CLASSES=wotc-beyond
+```
+
+`STYLE_SETTINGS_BODY_CLASSES` picks the palette. ITS ships several worth
+trying for a campaign site: `wotc-beyond` (cream parchment, dark brown ink,
+red headings), `dnd`, `pathfinder`, `pathfinder-remaster`, `drwn` and `advt`.
+Each works in light or dark — set `BASE_THEME` to match.
+
+Dark parchment reads worse than light for long text: cream-on-brown gives you
+about 11:1 contrast where a dark parchment gives about 4:1. If your players
+read job summaries and expedition reports on a phone, prefer a light palette.
+
+The plugin's own **Campaign theme** setting is an alternative for gardens that
+would rather not load an external theme. It is off by default, and there is no
+reason to turn it on if you are using ITS — they would fight.
 
 ## Settings
 
