@@ -24,7 +24,6 @@
   --ch-accent: var(--text-accent, #7b6cd9);
   --ch-warn: #b5553f;
   --ch-ui: var(--font-interface, system-ui, -apple-system, "Segoe UI", sans-serif);
-  --ch-display: inherit;
 
   margin: 1.5em 0;
   color: var(--ch-ink);
@@ -80,9 +79,11 @@ main:has(.ch-home) > header h1 { display: none; }
 }
 
 
+/* Headings take the host theme's own heading font for their level (ITS sets
+   --h1-font…--h6-font). Where a theme sets none, they inherit as before. */
 .campaign-hub .ch-card h2,
 .campaign-hub .ch-section-head {
-  font-family: var(--ch-display);
+  font-family: var(--h2-font, inherit);
   font-size: 1.05rem;
   letter-spacing: 0.05em;
   margin: 0 0 10px;
@@ -117,7 +118,7 @@ main:has(.ch-home) > header h1 { display: none; }
 }
 
 .campaign-hub .ch-banner h1 {
-  font-family: var(--ch-display);
+  font-family: var(--h1-font, inherit);
   font-size: clamp(1.6rem, 3.4vw, 2.4rem);
   line-height: 1.1;
   margin: 0;
@@ -188,7 +189,7 @@ main:has(.ch-home) > header h1 { display: none; }
 .ch-mapcard .ch-map-image[hidden] { display: none; }
 
 .ch-stat {
-  font-family: var(--ch-display);
+  font-family: var(--h2-font, inherit);
   font-size: 1.8rem;
   line-height: 1;
   margin: 0;
@@ -252,7 +253,7 @@ main:has(.ch-home) > header h1 { display: none; }
 }
 
 .campaign-hub .ch-job h3 {
-  font-family: var(--ch-display);
+  font-family: var(--h3-font, inherit);
   font-size: 0.95rem;
   margin: 2px 0 4px;
   letter-spacing: 0.02em;
@@ -466,7 +467,7 @@ main:has(.ch-home) > header h1 { display: none; }
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-family: var(--ch-display);
+  font-family: var(--h3-font, inherit);
   font-size: 0.9rem;
   background: var(--ch-panel-2);
   border: 1px solid var(--ch-line);
@@ -528,7 +529,7 @@ main:has(.ch-home) > header h1 { display: none; }
 }
 
 .campaign-hub .ch-pc-card h3 {
-  font-family: var(--ch-display);
+  font-family: var(--h3-font, inherit);
   font-size: 1rem;
   margin: 0 0 2px;
   border: 0;
