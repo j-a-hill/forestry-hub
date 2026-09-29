@@ -80,6 +80,16 @@ module.exports = {
 
     eleventyConfig.addFilter("campaignHubInline", safe(inlineMarkdown, ""));
 
+    // Nunjucks' own lower and trim call string methods on whatever they are
+    // given, and throw on a list, a number or true. The slot templates run on
+    // every note in the vault, so one note with `type: [npc, merchant]` took
+    // the whole site build down. Any property read straight off a note goes
+    // through this instead: a list or object reads as "", which is no type.
+    eleventyConfig.addFilter(
+      "campaignHubKey",
+      safe((value) => data.text(value).toLowerCase(), "")
+    );
+
     eleventyConfig.addFilter("campaignHubHexUrl", safe(hexUrl, ""));
 
     // A number the settings UI may hand back as a string.

@@ -6,7 +6,7 @@
 #}
 {% import "plugins/campaign-hub/templates/macros.njk" as ch %}
 
-{% for ch_page in [(noteProps.hub if noteProps else hub) | lower | trim] %}
+{% for ch_page in [(noteProps.hub if noteProps else hub) | campaignHubKey] %}
 {% if ch_page == "jobs" or ch_page == "log" or ch_page == "roster" or ch_page == "fort" %}
 {% for ch_data in [collections.note | campaignHub] %}
 <div class="campaign-hub ch-page ch-page-{{ ch_page }}">
