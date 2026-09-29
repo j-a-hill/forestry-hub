@@ -8,7 +8,7 @@
 {% import "plugins/campaign-hub/templates/macros.njk" as ch %}
 
 {% if pluginSettings.showNoteStrip !== false %}
-{% for ch_type in [(noteProps.type if noteProps else type) | lower | trim] %}
+{% for ch_type in [(noteProps.type if noteProps else type) | campaignHubKey] %}
 {% if ch_type == "job" or ch_type == "session" or ch_type == "character" %}
 {% for ch_data in [collections.note | campaignHub] %}
 {% for ch_self in [page.url] %}

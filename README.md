@@ -19,9 +19,15 @@ with its `wotc-beyond` palette — see [Theme](#theme).*
 
 ## Installing
 
-Obsidian → Settings → Digital Garden → Plugins → Manage plugins → Install from
-GitHub, and paste this repository's URL. Open the same screen later to update
-when the version number changes.
+Obsidian → Settings → Digital Garden → **Garden Plugins** → **Manage plugins**,
+install from URL, and paste `https://github.com/j-a-hill/forestry-hub`. Open the
+same screen later to update when the version number changes.
+
+The installer takes the repository's latest release if there is one, otherwise
+its default branch — so `main` must be the default branch on GitHub.
+
+Then add `hub: home` to your home note's properties. Without it the dashboard
+stays hidden, which is deliberate: the plugin shows nothing until you opt in.
 
 ## What it builds
 
@@ -127,18 +133,30 @@ text, never as a dead link.
 The hub is drawn in whatever Obsidian theme your garden is using — it reads
 the theme's own colour variables rather than imposing its own. The look above
 is **ITS Theme** by SlRvb, which most tabletop vaults already use, in its
-D&D Beyond palette. To get it, set these in your Forestry site settings:
+D&D Beyond palette. It is set from Obsidian, not typed in anywhere: the
+Digital Garden plugin writes the values to your site when you click through
+these screens.
 
-```
-THEME=https://raw.githubusercontent.com/slrvb/Obsidian--ITS-Theme/main/theme.css
-BASE_THEME=light
-STYLE_SETTINGS_BODY_CLASSES=wotc-beyond
-```
+**1. The theme.** Obsidian → Settings → Digital Garden → **Appearance** →
+**Manage appearance**. Under *Theme Settings*, pick **ITS Theme** and set
+**Base theme** to *light*, then **Apply settings to site**.
 
-`STYLE_SETTINGS_BODY_CLASSES` picks the palette. ITS ships several worth
-trying for a campaign site: `wotc-beyond` (cream parchment, dark brown ink,
-red headings), `dnd`, `pathfinder`, `pathfinder-remaster`, `drwn` and `advt`.
-Each works in light or dark — set `BASE_THEME` to match.
+**2. The palette.** This needs the *Style Settings* community plugin, which
+is how ITS offers its palettes. Obsidian → Settings → Style Settings →
+ITS Theme → *Alternate Color Schemes* → **TTRPG** → **WOTC/Beyond**. Switch
+Obsidian itself to light mode, then go back to **Manage appearance** and click
+**Apply Style Settings**.
+
+Light mode matters in step 2: *Apply Style Settings* copies every class on
+Obsidian's own page, including its light or dark mode. If Obsidian is dark
+while the site's base theme is light, the site gets both and they fight.
+
+Other TTRPG palettes in the same dropdown work too — SlRvb D&D, Pathfinder,
+Pathfinder Remaster. Each works in light or dark; keep the base theme and
+Obsidian's own mode matching.
+
+For reference, these land on the site as `THEME` (the ITS stylesheet),
+`BASE_THEME=light` and `STYLE_SETTINGS_BODY_CLASSES` (containing `wotc-beyond`).
 
 Prefer a light palette if your players read on phones. `wotc-beyond` puts
 dark brown ink on cream at about 11:1 contrast, which holds up for job

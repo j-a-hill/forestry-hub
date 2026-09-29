@@ -206,3 +206,11 @@ test("dates are read in UTC, whatever the build machine's timezone", () => {
   assert.equal(data.formatLongDate(data.parseDate("2026-12-31T23:30")), "31 December 2026");
   assert.equal(data.formatSessionTime(data.parseDate("2026-09-17 19:30"), true), "Thu 17 Sep · 7.30pm");
 });
+
+test("notes whose type or hub is not a string stay out of the hub", () => {
+  // Wenna has `type: [npc, merchant]`; the map index has `type: 3, hub: true`.
+  // In 1.2.0 the list-typed note crashed the site build from the templates.
+  const all = [...model.jobs, ...model.sessions, ...model.characters, ...model.facilities];
+  assert.ok(!all.some((item) => /Wenna|Map index/.test(item.title)));
+  assert.ok(!Object.values(model.hubPages).some((page) => /Map index/.test(page.title)));
+});
