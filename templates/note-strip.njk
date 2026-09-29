@@ -1,0 +1,54 @@
+{#
+  Campaign Hub – property strip (notes.beforeContent).
+
+  A one-line summary of the properties that matter on a job, session or
+  character note, so a player landing on the note itself sees the same facts
+  the hub showed them.
+#}
+{% import "plugins/campaign-hub/templates/macros.njk" as ch %}
+
+{% if pluginSettings.showNoteStrip !== false %}
+{% for ch_type in [(noteProps.type if noteProps else type) | lower | trim] %}
+{% if ch_type == "job" or ch_type == "session" or ch_type == "character" %}
+{% for ch_data in [collections.note | campaignHub] %}
+{% for ch_self in [page.url] %}
+<div class="campaign-hub ch-strip">
+
+  {% if ch_type == "job" %}
+    {% for ch_job in ch_data.jobs %}{% if ch_job.url == ch_self %}
+      <span class="ch-tag ch-tag-{{ ch_job.status }}">
+        {{ ch_job.status }}{% if ch_job.status == "taken" and ch_job.takenBy %} · {{ ch_job.takenBy }}{% endif %}
+      </span>
+      {% if ch_job.patron %}<span class="ch-strip-item">Posted by {{ ch.ref(ch_job.patron) }}</span>{% endif %}
+      {% if ch_job.reward %}<span class="ch-strip-item">{{ ch_job.reward }}</span>{% endif %}
+      {% if ch_job.hexes.length %}<span class="ch-strip-item">{{ ch.hexes(ch_job.hexes, ch_data.mapNote) }}</span>{% endif %}
+    {% endif %}{% endfor %}
+  {% endif %}
+
+  {% if ch_type == "session" %}
+    {% for ch_session in ch_data.sessions %}{% if ch_session.url == ch_self %}
+      {% if ch_session.dateLong %}<span class="ch-strip-item">{{ ch_session.dateLong }}</span>{% endif %}
+      {% if ch_session.party.length %}<span class="ch-strip-item">{{ ch.refList(ch_session.party) }}</span>{% endif %}
+      {% if ch_session.hexes.length %}<span class="ch-strip-item">{{ ch.hexes(ch_session.hexes, ch_data.mapNote) }}</span>{% endif %}
+    {% endif %}{% endfor %}
+  {% endif %}
+
+  {% if ch_type == "character" %}
+    {% for ch_character in ch_data.characters %}{% if ch_character.url == ch_self %}
+      <span class="ch-tag ch-tag-{{ ch_character.status }}">{{ ch_character.status }}</span>
+      {% if ch_character.className %}
+        <span class="ch-strip-item">{{ ch_character.className }}{% if ch_character.level %} {{ ch_character.level }}{% endif %}</span>
+      {% endif %}
+      {% if ch_character.origin %}<span class="ch-strip-item">of {{ ch.ref(ch_character.origin) }}</span>{% endif %}
+      {% if ch_character.player %}<span class="ch-strip-item">played by {{ ch_character.player }}</span>{% endif %}
+      <span class="ch-strip-item">{{ ch_character.expeditions }}
+        expedition{% if ch_character.expeditions != 1 %}s{% endif %}</span>
+    {% endif %}{% endfor %}
+  {% endif %}
+
+</div>
+{% endfor %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}

@@ -1,0 +1,4 @@
+.garden/
+dev/screenshots/
+node_modules/
+.DS_Store

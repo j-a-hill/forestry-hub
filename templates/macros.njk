@@ -1,0 +1,126 @@
+{#
+  Campaign Hub – shared macros.
+
+  This file renders to nothing. It is declared as a slot only so the plugin
+  loader syncs it into _includes, where the other slot templates can
+  {% import %} it: a template that is not declared cannot be included, and
+  macros are the only way to share markup between slots.
+#}
+
+{# A property that may or may not point at a published note. Unpublished
+   targets render as plain text, never as a dead link. #}
+{% macro ref(item) %}
+  {%- if item and item.url -%}<a href="{{ item.url }}">{{ item.text }}</a>
+  {%- elif item -%}{{ item.text }}
+  {%- endif -%}
+{% endmacro %}
+
+{% macro refList(items, separator) %}
+  {%- for item in items -%}
+    {{ ref(item) }}{% if not loop.last %}{{ separator | default(", ") }}{% endif %}
+  {%- endfor -%}
+{% endmacro %}
+
+{# Hex numbers, linked into the hexcrawl map when that plugin is installed
+   and a map note exists, plain chips otherwise. #}
+{% macro hexes(list, mapNote) %}
+  {%- if list and list.length -%}
+    <span class="ch-hexes">
+      {%- for hex in list -%}
+        {%- if mapNote and mapNote.url -%}
+          <a class="ch-hex" href="{{ mapNote | campaignHubHexUrl(hex) }}">{{ hex }}</a>
+        {%- else -%}
+          <span class="ch-hex">{{ hex }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+    </span>
+  {%- endif -%}
+{% endmacro %}
+
+{% macro jobTags(job) %}
+  <p class="ch-job-meta">
+    <span class="ch-tag ch-tag-{{ job.status }}">
+      {{ job.status }}{% if job.status == "taken" and job.takenBy %} · {{ job.takenBy }}{% endif %}
+    </span>
+    {% if job.patron %}<span class="ch-tag">{{ ref(job.patron) }}</span>{% endif %}
+    {% if job.reward %}<span class="ch-tag">{{ job.reward }}</span>{% endif %}
+  </p>
+{% endmacro %}
+
+{# One notice on the rumour board. #}
+{% macro jobCard(job, mapNote) %}
+  <article class="ch-job ch-job-{{ job.status }}">
+    <h3>{% if job.url %}<a href="{{ job.url }}">{{ job.title }}</a>{% else %}{{ job.title }}{% endif %}</h3>
+    {% if job.summary %}<p class="ch-job-summary">{{ job.summary }}</p>{% endif %}
+    {{ jobTags(job) }}
+    {% if job.hexes.length %}<p class="ch-job-hexes">{{ hexes(job.hexes, mapNote) }}</p>{% endif %}
+  </article>
+{% endmacro %}
+
+{% macro sessionRow(session, mapNote) %}
+  <tr>
+    <td class="ch-log-date">{{ session.dateShort | default("—", true) }}</td>
+    <td>
+      {%- if session.url %}<a href="{{ session.url }}">{{ session.title }}</a>{% else %}{{ session.title }}{% endif -%}
+      {% if session.party.length or session.summary %}
+        <span class="ch-log-detail">
+          {%- if session.party.length %}{{ refList(session.party) }}{% endif -%}
+          {%- if session.party.length and session.summary %} · {% endif -%}
+          {{- session.summary -}}
+        </span>
+      {% endif %}
+    </td>
+    <td>{{ hexes(session.hexes, mapNote) }}</td>
+  </tr>
+{% endmacro %}
+
+{% macro facilityBar(facility) %}
+  <div class="ch-bar{% if facility.warn %} ch-bar-warn{% endif %}">
+    <p class="ch-bar-row">
+      <b>{% if facility.url %}<a href="{{ facility.url }}">{{ facility.title }}</a>{% else %}{{ facility.title }}{% endif %}</b>
+      <span>{{ facility.state }}</span>
+    </p>
+    <div class="ch-track" role="img"
+         aria-label="{{ facility.title }}: {{ facility.progress }} per cent{% if facility.state %}, {{ facility.state }}{% endif %}">
+      <div class="ch-fill" style="width:{{ facility.progress }}%"></div>
+    </div>
+  </div>
+{% endmacro %}
+
+{% macro characterRow(character) %}
+  <li class="ch-pc ch-pc-{{ character.status }}">
+    <span class="ch-sigil" aria-hidden="true">{{ character.initial }}</span>
+    <span class="ch-pc-main">
+      <span class="ch-pc-name">
+        {%- if character.url -%}<a href="{{ character.url }}">{{ character.title }}</a>
+        {%- else -%}{{ character.title }}{%- endif -%}
+      </span>
+      {#
+        Each part is its own span and the stylesheet puts the separator
+        between them, so a character with no class never leads with a stray
+        middle dot.
+      #}
+      <span class="ch-pc-line">
+        {%- if character.className or character.level -%}
+          <span>{{ character.className }}{% if character.level %} {{ character.level }}{% endif %}</span>
+        {%- endif -%}
+        {%- if character.player %}<span>{{ character.player }}</span>{% endif -%}
+        {%- if character.status != "alive" and character.fate %}<span>{{ character.fate }}</span>{% endif -%}
+      </span>
+    </span>
+    <span class="ch-pc-count">
+      {%- if character.expeditions -%}
+        {{ character.expeditions }} expedition{% if character.expeditions != 1 %}s{% endif %}
+      {%- else -%}
+        <span class="ch-quiet">not yet out</span>
+      {%- endif -%}
+    </span>
+  </li>
+{% endmacro %}
+
+{# A card heading with an optional "more →" link to the matching hub page. #}
+{% macro cardHead(heading, page, label) %}
+  <h2>{{ heading }}
+    {% if page and page.url %}<a href="{{ page.url }}">{{ label }} →</a>{% endif %}
+  </h2>
+{% endmacro %}
