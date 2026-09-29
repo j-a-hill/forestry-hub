@@ -126,7 +126,7 @@ Any section with no data is omitted. Nothing renders an empty box.
 
 ## Theme
 
-**The site's theme is ITS Theme.** The plugin has no theme of its own and must not grow one: it draws only from the host theme's Obsidian variables. (A built-in parchment theme existed up to 1.1.0 and was removed in 1.2.0 in favour of ITS.) The garden loads it with `THEME=https://raw.githubusercontent.com/slrvb/Obsidian--ITS-Theme/main/theme.css`, `BASE_THEME=light`, `STYLE_SETTINGS_BODY_CLASSES=wotc-beyond`. The hub must look right inside it. Things a host theme does that broke the hub before, and that any change here must keep working:
+**The site's theme is ITS Theme.** The plugin has no theme of its own and must not grow one: it draws only from the host theme's Obsidian variables. (A built-in parchment theme existed up to 1.1.0 and was removed in 1.2.0 in favour of ITS.) The site receives it as `THEME=https://raw.githubusercontent.com/slrvb/Obsidian--ITS-Theme/main/theme.css`, `BASE_THEME=light`, `STYLE_SETTINGS_BODY_CLASSES` containing `wotc-beyond`. Jake never types these: the Digital Garden plugin writes them from Obsidian (Appearance → Manage appearance for the theme and base theme; Apply Style Settings for the palette, which copies Obsidian's whole body class list). Point him at those screens, not at env vars — the README has the steps. The hub must look right inside it. Things a host theme does that broke the hub before, and that any change here must keep working:
 
 - a decorative `::before`/`::after` on a heading becomes a **flex item** in our card headings and wraps the title — switched off on our own headings only
 - a themed `li::before` bullet becomes an extra **grid item** in `.ch-pc` roster rows and wraps them
