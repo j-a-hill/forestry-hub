@@ -117,9 +117,9 @@ async function main() {
       });
       /* Screenshot the site as built, not the internet: block every request
          that does not come from our own server. The template pulls a search
-         index and an icon set from CDNs, and the campaign theme pulls two
-         typefaces from Google Fonts — none of which should decide whether a
-         screenshot run passes, or how long it takes. */
+         index and an icon set from CDNs, and a theme may pull typefaces —
+         none of which should decide whether a screenshot run passes, or how
+         long it takes. */
       await context.route("**/*", (route) => {
         const url = route.request().url();
         return url.startsWith("http://127.0.0.1:") ? route.continue() : route.abort();

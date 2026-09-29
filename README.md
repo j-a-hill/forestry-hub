@@ -140,13 +140,12 @@ trying for a campaign site: `wotc-beyond` (cream parchment, dark brown ink,
 red headings), `dnd`, `pathfinder`, `pathfinder-remaster`, `drwn` and `advt`.
 Each works in light or dark — set `BASE_THEME` to match.
 
-Dark parchment reads worse than light for long text: cream-on-brown gives you
-about 11:1 contrast where a dark parchment gives about 4:1. If your players
-read job summaries and expedition reports on a phone, prefer a light palette.
+Prefer a light palette if your players read on phones. `wotc-beyond` puts
+dark brown ink on cream at about 11:1 contrast, which holds up for job
+summaries and expedition reports in daylight.
 
-The plugin's own **Campaign theme** setting is an alternative for gardens that
-would rather not load an external theme. It is off by default, and there is no
-reason to turn it on if you are using ITS — they would fight.
+The plugin brings no palette or typefaces of its own, and makes no requests
+outside your site except for the hex map's data.
 
 ## Settings
 
@@ -159,13 +158,8 @@ Obsidian → Settings → Digital Garden → Plugins → Campaign Hub.
 | Overheard rumours | random 3 | Three at random on each visit, or all of them |
 | Hex map data | `/hexcrawl-map.json` | Where the map card reads its data |
 | Property strip on notes | on | The strip under the title of job, session and character notes |
-| Campaign theme | off | Restyles the whole site: parchment palette, Cinzel and EB Garamond |
 
-The campaign theme is the only thing here that reaches outside your site: it
-loads two typefaces from Google Fonts. Leave it off and the hub uses your
-garden's own theme.
-
-![The home dashboard with the campaign theme on](docs/screenshot-home-theme.png)
+![The home dashboard on a phone](docs/screenshot-home-phone.png)
 
 ## Working on it
 

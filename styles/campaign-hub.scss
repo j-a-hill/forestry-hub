@@ -1,12 +1,10 @@
 /*
  * Campaign Hub styles.
  *
- * Two layers:
- *   1. The hub components, scoped under .campaign-hub and drawn in the
- *      garden's own theme colours, so they sit inside whatever Obsidian
- *      theme the site is using.
- *   2. The optional campaign theme, scoped under html.campaign-theme, which
- *      the head slot only adds when the setting is on.
+ * Everything is scoped under .campaign-hub and drawn from the garden's own
+ * Obsidian theme variables, so the hub takes its look from whatever theme
+ * the site loads — ITS Theme on the live site. The plugin brings no palette
+ * or typefaces of its own.
  */
 
 .campaign-hub {
@@ -614,100 +612,4 @@ main:has(.ch-home) > header h1 { display: none; }
 
   .ch-pc { grid-template-columns: 32px minmax(0, 1fr); }
   .ch-pc-count { grid-column: 2; }
-}
-
-/*
- * ---------- the optional campaign theme ----------
- *
- * Only the palette and the typefaces. Layout, the hex map, search, the file
- * tree and code blocks all keep working because nothing here touches them
- * beyond colour.
- */
-
-/*
- * The palette is declared on <body> as well as <html>: the garden's own theme
- * sets these same variables on body.theme-dark, which would otherwise win for
- * everything inside body no matter what <html> says.
- */
-html.campaign-theme,
-html.campaign-theme body {
-  --background-primary: #16130f;
-  --background-primary-alt: #1a1612;
-  --background-secondary: #221d17;
-  --background-secondary-alt: #2a241c;
-  --background-modifier-border: #3b3226;
-  --background-modifier-form-field: #1a1612;
-  --text-normal: #e9dfcb;
-  --text-muted: #b3a78f;
-  --text-faint: #857a66;
-  --text-title-h1: #f1e4c6;
-  --text-title-h2: #e6d4ab;
-  --text-accent: #d2a85a;
-  --text-accent-hover: #e6c079;
-  --text-a: #d2a85a;
-  --text-a-hover: #e6c079;
-  --interactive-accent: #8f7240;
-  --text-highlight-bg: rgba(210, 168, 90, 0.25);
-  --text-selection: rgba(210, 168, 90, 0.25);
-  --font-family-preview: "EB Garamond", Garamond, Georgia, serif;
-}
-
-html.campaign-theme {
-  background-color: #16130f;
-  color-scheme: dark;
-
-  body {
-    font-family: "EB Garamond", Garamond, Georgia, serif;
-    font-size: 1.05rem;
-    background-color: var(--background-primary);
-    color: var(--text-normal);
-  }
-
-  /* The filetree and the sidebar are painted from their own variables. */
-  .filetree-sidebar,
-  .nav-file-title,
-  .sidebar-container,
-  .navbar {
-    background-color: var(--background-primary-alt);
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: "Cinzel", "Trajan Pro", Georgia, serif;
-    letter-spacing: 0.03em;
-  }
-
-  /* Code and the map viewer keep a UI face — a display serif makes both
-     unreadable. */
-  code, pre, kbd, samp,
-  .hexcrawl-map, .hexcrawl-map * {
-    font-family: var(--font-monospace, ui-monospace, SFMono-Regular, Menlo, monospace);
-  }
-
-  .campaign-hub { --ch-display: "Cinzel", "Trajan Pro", Georgia, serif; }
-
-  .ch-banner {
-    background:
-      radial-gradient(1200px 300px at 10% -40%, rgba(210, 168, 90, 0.18), transparent 60%),
-      linear-gradient(180deg, #2a2219, #1f1a14);
-  }
-
-  .ch-fill { background: linear-gradient(90deg, #8f7240, #d2a85a); }
-  .ch-bar-warn .ch-fill { background: linear-gradient(90deg, #7a3a2b, #b5553f); }
-
-  /* Callouts as handouts. */
-  .callout[data-callout="quote"],
-  .callout[data-callout="handout"],
-  .callout[data-callout="rumour"] {
-    background: #f0e2c0;
-    color: #2b2217;
-    border-left: 3px solid #8f7240;
-  }
-
-  .callout[data-callout="quote"] .callout-title,
-  .callout[data-callout="handout"] .callout-title,
-  .callout[data-callout="rumour"] .callout-title { color: #6a5334; }
-
-  .callout[data-callout="quote"] a,
-  .callout[data-callout="handout"] a,
-  .callout[data-callout="rumour"] a { color: #7c2a1b; }
 }

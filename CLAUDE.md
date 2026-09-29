@@ -124,9 +124,9 @@ Home dashboard (`index.beforeContent`, only when the home note has `hub: home`):
 8. Adventurers: characters, alive first, dead struck through
 Any section with no data is omitted. Nothing renders an empty box.
 
-Optional site theme (setting, default off): parchment/dark palette, Cinzel + EB Garamond from Google Fonts with system serif fallbacks. Toggled by a class on `<html>` set from a `common.head` slot so it can be switched off cleanly.
+## Theme
 
-**The site's theme is ITS Theme, not this setting.** The garden loads it with `THEME=https://raw.githubusercontent.com/slrvb/Obsidian--ITS-Theme/main/theme.css`, `BASE_THEME=light`, `STYLE_SETTINGS_BODY_CLASSES=wotc-beyond`. The hub must look right inside it. Things a host theme does that broke the hub before, and that any change here must keep working:
+**The site's theme is ITS Theme.** The plugin has no theme of its own and must not grow one: it draws only from the host theme's Obsidian variables. (A built-in parchment theme existed up to 1.1.0 and was removed in 1.2.0 in favour of ITS.) The garden loads it with `THEME=https://raw.githubusercontent.com/slrvb/Obsidian--ITS-Theme/main/theme.css`, `BASE_THEME=light`, `STYLE_SETTINGS_BODY_CLASSES=wotc-beyond`. The hub must look right inside it. Things a host theme does that broke the hub before, and that any change here must keep working:
 
 - a decorative `::before`/`::after` on a heading becomes a **flex item** in our card headings and wraps the title — switched off on our own headings only
 - a themed `li::before` bullet becomes an extra **grid item** in `.ch-pc` roster rows and wraps them
@@ -134,7 +134,7 @@ Optional site theme (setting, default off): parchment/dark palette, Cinzel + EB 
 - table row/column striping is neutralised through `--table-*-alt-background` inside `.ch-log`, not by out-specifying the theme
 - a bare garden with no theme leaves `--text-muted` / `--text-faint` **undefined**; the fallbacks are derived from `--ch-ink` with `color-mix`, never fixed greys
 
-Check any styling change against ITS light, a bare garden, and the plugin's own theme. `dev/setup.sh --its` builds the ITS case.
+Check any styling change against ITS light and a bare garden. `dev/setup.sh --its` builds the ITS case; plain `dev/setup.sh` builds the bare one.
 
 ## Local test harness
 
@@ -153,7 +153,7 @@ Everything in `dev/` is for testing only. Keep it small. It gets copied into the
 - The site must never break because of this plugin. Missing or odd frontmatter degrades to "section hidden", not a build error.
 - British spelling in anything user-facing. Plain wording, no marketing tone.
 - Accessible: real links and buttons, sensible headings, readable contrast, works at 400 px.
-- No external requests except Google Fonts (theme) and `/hexcrawl-map.json`.
+- No external requests. The one fetch the plugin makes is `/hexcrawl-map.json`, on the site's own origin.
 
 ## Git workflow
 

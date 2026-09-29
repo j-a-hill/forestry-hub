@@ -1,15 +1,12 @@
 {
   "id": "campaign-hub",
   "name": "Campaign Hub",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Turns a Digital Garden into a hub for a West Marches tabletop campaign: a home dashboard built from job, session, character and facility notes, plus job board, expedition log, roster and rebuild pages.",
   "author": "Jake Hill",
   "hooks": "index.js",
   "slots": {
-    "common.head": [
-      "templates/head.njk",
-      "templates/macros.njk"
-    ],
+    "common.head": "templates/macros.njk",
     "index.beforeContent": "templates/home.njk",
     "notes.beforeContent": "templates/note-strip.njk",
     "notes.afterContent": "templates/hub-page.njk"
@@ -59,13 +56,6 @@
       "description": "Show a small strip of key properties under the title of job, session and character notes.",
       "type": "boolean",
       "default": true
-    },
-    {
-      "key": "campaignTheme",
-      "name": "Campaign theme",
-      "description": "Restyle the whole site with a parchment and ink palette and the Cinzel and EB Garamond typefaces from Google Fonts. Leave this off to keep your current garden theme.",
-      "type": "boolean",
-      "default": false
     }
   ]
 }

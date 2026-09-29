@@ -4,6 +4,7 @@
 > is here for the "Iterating after that" section at the bottom, which is still
 > the shape to use for changes and bug reports. The repo is
 > `j-a-hill/forestry-hub`, not the `forestry-campaign-hub` named below.
+> Prompt 6's built-in theme was later removed (1.2.0): the site uses ITS Theme.
 
 Paste these into a Claude Code session on the `forestry-campaign-hub` repo, one at a time. Wait for each to finish, check the screenshots or the PR, then move on. `CLAUDE.md` carries the background, so the prompts stay short.
 
