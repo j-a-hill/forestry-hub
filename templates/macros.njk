@@ -109,11 +109,7 @@
       </span>
     </span>
     <span class="ch-pc-count">
-      {%- if character.expeditions -%}
-        {{ character.expeditions }} expedition{% if character.expeditions != 1 %}s{% endif %}
-      {%- else -%}
-        <span class="ch-quiet">not yet out</span>
-      {%- endif -%}
+      Adventures: {{ character.expeditions or 0 }}
     </span>
   </li>
 {% endmacro %}
