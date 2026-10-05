@@ -66,11 +66,48 @@ function safe(fn, fallback) {
   };
 }
 
+/**
+ * The hexes hexcrawl-map has revealed, read from the filter it builds
+ * /hexcrawl-map.json with, so the roster agrees with the map without
+ * duplicating its rules. Looked up when a page renders rather than at setup,
+ * because plugins load in any order. No hexcrawl-map, or anything going
+ * wrong, means nothing is revealed: a character's hex then reads "Out in the
+ * wilds" and the number never reaches the page.
+ */
+function mapRevealer(eleventyConfig) {
+  const cache = new WeakMap();
+  return (collection) => {
+    try {
+      if (collection && typeof collection === "object" && cache.has(collection)) {
+        return cache.get(collection);
+      }
+      const indexFilter =
+        typeof eleventyConfig.getFilter === "function"
+          ? eleventyConfig.getFilter("hexcrawlIndex")
+          : null;
+      const revealed =
+        typeof indexFilter === "function"
+          ? data.revealedHexes(indexFilter(collection))
+          : new Set();
+      if (collection && typeof collection === "object") cache.set(collection, revealed);
+      return revealed;
+    } catch (error) {
+      console.warn(`[campaign-hub] could not read the map's explored hexes: ${error && error.message}`);
+      return new Set();
+    }
+  };
+}
+
 module.exports = {
   setupEleventy(eleventyConfig) {
+    const revealedFor = mapRevealer(eleventyConfig);
+
     eleventyConfig.addFilter(
       "campaignHub",
-      safe((collection) => data.buildModel(collection), () => ({ ...EMPTY_MODEL }))
+      safe(
+        (collection) => data.buildModel(collection, { revealed: revealedFor(collection) }),
+        () => ({ ...EMPTY_MODEL })
+      )
     );
 
     eleventyConfig.addFilter(

@@ -74,7 +74,10 @@
                 {% if ch_character.status != "alive" and ch_character.fate %}
                   <p class="ch-fate">{{ ch_character.status | capitalize }} · {{ ch_character.fate }}</p>
                 {% endif %}
-                <p class="ch-pc-count">Adventures: {{ ch_character.expeditions or 0 }}</p>
+                <p class="ch-pc-count">
+                  <span>Adventures: {{ ch_character.expeditions or 0 }}</span>
+                  {%- if ch_character.location %}<span class="ch-pc-where">Where: {{ ch.ref(ch_character.location) }}</span>{% endif %}
+                </p>
                 {% if ch_character.sessions.length %}
                   <ul class="ch-pc-sessions">
                     {% for ch_session in ch_character.sessions %}

@@ -42,6 +42,7 @@
       {% if ch_character.origin %}<span class="ch-strip-item">of {{ ch.ref(ch_character.origin) }}</span>{% endif %}
       {% if ch_character.player %}<span class="ch-strip-item">played by {{ ch_character.player }}</span>{% endif %}
       <span class="ch-strip-item">Adventures: {{ ch_character.expeditions or 0 }}</span>
+      {% if ch_character.location %}<span class="ch-strip-item">Where: {{ ch.ref(ch_character.location) }}</span>{% endif %}
     {% endif %}{% endfor %}
   {% endif %}
 

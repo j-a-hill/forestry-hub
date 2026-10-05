@@ -1,5 +1,5 @@
 /**
- * Data layer tests. Run with `node --test dev/tests/` — node's own runner, so
+ * Data layer tests. Run with `node --test dev/tests/*.js` — node's own runner, so
  * the plugin still ships no npm dependencies.
  *
  * The fixtures under dev/fixtures/notes are read the way Eleventy would build
@@ -213,4 +213,68 @@ test("notes whose type or hub is not a string stay out of the hub", () => {
   const all = [...model.jobs, ...model.sessions, ...model.characters, ...model.facilities];
   assert.ok(!all.some((item) => /Wenna|Map index/.test(item.title)));
   assert.ok(!Object.values(model.hubPages).some((page) => /Map index/.test(page.title)));
+});
+
+/* ---------- character location ---------- */
+
+// What hexcrawl-map's index would say for these fixtures: 59 has a job note,
+// 57 has Ledge Camp. 200 is nowhere.
+const mapIndex = JSON.stringify({ hexes: { 57: [], 59: [] }, reveal: [12], maps: [] });
+const placed = data.buildModel(collection, { revealed: data.revealedHexes(mapIndex) });
+const where = (title) => placed.characters.find((c) => c.title === title).location;
+
+test("a place name shows as typed, as plain text", () => {
+  assert.deepEqual(where("Mira"), { text: "Fellgard" });
+  assert.deepEqual(where("Ysolde"), { text: "Ledge Camp" });
+});
+
+test("a wikilinked place shows its name, not the vault path", () => {
+  assert.deepEqual(where("Brak"), { text: "Ledge Camp" });
+});
+
+test("a revealed hex shows as Hex N, linked to the map", () => {
+  assert.deepEqual(where("Tam"), { text: "Hex 59", url: "/map-of-dunvale/?hex=59" });
+});
+
+test("an unrevealed hex never shows its number", () => {
+  assert.deepEqual(where("Fen"), { text: "Out in the wilds", url: "" });
+  assert.ok(!JSON.stringify(placed.characters).includes("200"));
+});
+
+test("without the map's index, no hex counts as revealed", () => {
+  const fen = model.characters.find((c) => c.title === "Fen");
+  const tam = model.characters.find((c) => c.title === "Tam");
+  assert.equal(fen.location.text, "Out in the wilds");
+  assert.equal(tam.location.text, "Out in the wilds");
+});
+
+test("an empty or missing location shows nothing", () => {
+  assert.equal(where("Oren"), null);
+  const blank = data.buildModel([
+    { url: "/a/", fileSlug: "A", data: { "dg-note-properties": { type: "character", location: "" } } },
+    { url: "/b/", fileSlug: "B", data: { "dg-note-properties": { type: "character", location: [] } } },
+  ]);
+  assert.deepEqual(blank.characters.map((c) => c.location), [null, null]);
+});
+
+test("Hex 57, 57 and \"57\" are all hexes", () => {
+  const revealed = new Set([57]);
+  const notes = ["Hex 57", 57, "57", "hex-057"].map((location, i) => ({
+    url: `/c${i}/`,
+    fileSlug: `C${i}`,
+    data: { "dg-note-properties": { type: "character", location } },
+  }));
+  const built = data.buildModel(notes, { revealed });
+  for (const character of built.characters) {
+    assert.equal(character.location.text, "Hex 57");
+  }
+});
+
+test("the map's index is read defensively", () => {
+  assert.deepEqual([...data.revealedHexes("not json")], []);
+  assert.deepEqual([...data.revealedHexes(null)], []);
+  assert.deepEqual(
+    [...data.revealedHexes({ hexes: { 3: [] }, reveal: ["4", "x"], explored: [5] })].sort(),
+    [3, 4, 5]
+  );
 });
