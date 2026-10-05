@@ -79,7 +79,9 @@ level: 3
 origin: Holtwyn     # optional
 status: alive       # alive | dead | retired | missing
 fate: fell at the cave mouth  # optional, shown when not alive
+location: Ledge Camp # optional: place name or hex number
 ```
+`location` shows as "Where: …". A hex shows as "Hex N" (linked to the map) only if hexcrawl-map has revealed it, read at build time through its `hexcrawlIndex` filter; otherwise "Out in the wilds", and the number never reaches the page.
 Expedition count is computed from session notes whose `party` includes the character's name. Don't store it.
 
 **Facility** (Fellgard rebuild tracker)

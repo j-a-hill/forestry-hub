@@ -493,6 +493,15 @@ main:has(.ch-home) > header h1 { display: none; }
   white-space: nowrap;
 }
 
+/* Home roster rows: the count and the location stack in the right column.
+   A long place name wraps rather than squeezing the name column. */
+.ch-pc .ch-pc-count > span { display: block; text-align: right; }
+.ch-pc .ch-pc-where { white-space: normal; max-width: 12em; margin-left: auto; }
+
+/* Roster cards: one line, separated like the class line above it. */
+.ch-pc-card .ch-pc-count { white-space: normal; }
+.ch-pc-card .ch-pc-count > span + span::before { content: " · "; white-space: pre; }
+
 .ch-pc-dead .ch-pc-name { text-decoration: line-through; color: var(--ch-faint); }
 .ch-pc-dead .ch-sigil { color: var(--ch-warn); }
 .ch-pc-retired .ch-pc-name,
@@ -613,4 +622,7 @@ main:has(.ch-home) > header h1 { display: none; }
 
   .ch-pc { grid-template-columns: 32px minmax(0, 1fr); }
   .ch-pc-count { grid-column: 2; }
+  .ch-pc .ch-pc-count > span { display: inline; text-align: left; }
+  .ch-pc .ch-pc-count > span + span::before { content: " · "; white-space: pre; }
+  .ch-pc .ch-pc-where { max-width: none; }
 }

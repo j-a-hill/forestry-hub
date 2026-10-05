@@ -87,10 +87,20 @@ level: 3
 origin: Holtwyn
 status: alive        # alive | missing | retired | dead (default alive)
 fate: fell at the cave mouth   # shown when the status is not alive
+location: Ledge Camp # optional: where they are now, a place name or a hex
 ```
 
 Expedition counts are worked out from the session notes whose `party`
 includes the character, so there is no count to keep up to date.
+
+`location` shows as "Where: …" on the roster, the home page and the
+character's own note. Leave it empty to show nothing. A place name
+(`Fellgard`, `Ledge Camp`, `missing`) is shown as typed. A hex number
+(`location: 57`) shows as "Hex 57", linked to the map, but only once the map
+has revealed that hex; until then it reads "Out in the wilds", so the roster
+never gives away a hex the players haven't found. Without the hexcrawl-map
+plugin every hex reads "Out in the wilds". Setting a location never reveals a
+hex on the map.
 
 ### A rebuild project
 

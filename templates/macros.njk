@@ -109,7 +109,8 @@
       </span>
     </span>
     <span class="ch-pc-count">
-      Adventures: {{ character.expeditions or 0 }}
+      <span>Adventures: {{ character.expeditions or 0 }}</span>
+      {%- if character.location %}<span class="ch-pc-where">Where: {{ ref(character.location) }}</span>{% endif %}
     </span>
   </li>
 {% endmacro %}
