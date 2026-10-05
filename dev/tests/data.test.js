@@ -278,3 +278,12 @@ test("the map's index is read defensively", () => {
     [3, 4, 5]
   );
 });
+
+test("a hex number buried in other text is not revealed", () => {
+  const revealed = data.revealedHexes({
+    hexes: { invalid200: [], "7a": [] },
+    reveal: ["invalid200", "Hex 201", "202.5", 203.5, -4, "0"],
+    explored: [true, null, { n: 205 }],
+  });
+  assert.deepEqual([...revealed], []);
+});
