@@ -225,7 +225,21 @@ const where = (title) => placed.characters.find((c) => c.title === title).locati
 
 test("a place name shows as typed, as plain text", () => {
   assert.deepEqual(where("Mira"), { text: "Fellgard" });
+});
+
+test("an unquoted wikilink, which YAML reads as a list in a list, still reads", () => {
+  // Ysolde's fixture has location: [["Ledge Camp"]], what `location: [[Ledge Camp]]` becomes.
   assert.deepEqual(where("Ysolde"), { text: "Ledge Camp" });
+  const notes = [[["Hex 59"]], [59], ["Fellgard"], [["A"], ["B"]], [["A", "B"]]].map((location, i) => ({
+    url: `/u${i}/`,
+    fileSlug: `U${i}`,
+    data: { "dg-note-properties": { type: "character", location } },
+  }));
+  const built = data.buildModel(notes, { revealed: new Set([59]) });
+  assert.deepEqual(
+    built.characters.map((c) => c.location && c.location.text),
+    ["Hex 59", "Hex 59", "Fellgard", null, null]
+  );
 });
 
 test("a wikilinked place shows its name, not the vault path", () => {
